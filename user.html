@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>GrowwCar Vintage - User Dashboard</title>
+    <link rel="icon" type="imags/jpg" href="img/growwpark_logo.jpg">
+    <link rel="icon" type="image/jpg" href="https://images.unsplash.com/photo-1494905998402-395d579af36f?q=80&w=2070&auto=format&fit=crop">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#b91c1c', // Vintage red
+                        secondary: '#854d0e' // Vintage gold
+                    },
+                    screens: {
+                        'xs': '475px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                    }
+                } 
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            overflow-x: hidden;
+            width: 100%;
+            background: #F8F9FD;
+        }
+        
+        .dark body {
+            background: #0F172A;
+        }
+
+        /* Logo Style - Consistent */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-icon {
+            color: #b91c1c;
+            width: 24px;
+            height: 24px;
+        }
+        
+        .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .logo-brand {
+            color: #b91c1c;
+            font-weight: 900;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        
+        .logo-brand-light {
+            color: #6b7280;
+            font-weight: 900;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        
+        .dark .logo-brand-light {
+            color: #ffffff;
+        }
+        
+        .sidebar-active { 
+            background: rgba(185, 28, 28, 0.1); 
+            border-left: 4px solid #b91c1c; 
+            color: #b91c1c !important; 
+            font-weight: 700; 
+        }
+        
+        [dir="rtl"] .sidebar-active { 
+            border-left: 0; 
+            border-right: 4px solid #b91c1c; 
+        }
+        
+        .custom-shadow { 
+            box-shadow: 0 10px 25px -5px rgba(185, 28, 28, 0.1); 
+        }
+        
+        .dark .custom-shadow { 
+            box-shadow: 0 10px 25px -5px rgba(185, 28, 28, 0.2); 
+        }
+        
+        .page-node { 
+            display: none; 
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        .page-node.active { 
+            display: block; 
+            animation: fadeInUp 0.4s ease forwards;
+        }
+        
+        @keyframes fadeInUp { 
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            #sidebar {
+                width: 280px;
+                box-shadow: 0 0 30px rgba(185, 28, 28, 0.15);
+            }
+            
+            .dark #sidebar {
+                box-shadow: 0 0 30px rgba(185, 28, 28, 0.3);
+            }
+        }
+        
+        button, a {
+            min-height: 44px;
+            min-width: 44px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 640px) {
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .car-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        /* Vintage texture */
+        .vintage-texture {
+            background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 dark:bg-[#0F172A] text-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Mobile Overlay -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300"></div>
+
+    <div class="flex min-h-screen relative w-full overflow-x-hidden">
+        <!-- Sidebar - Vintage User Navigation -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-[280px] bg-white dark:bg-[#1E293B] text-gray-500 dark:text-gray-400 transition-all duration-300 ease-in-out lg:translate-x-0 -translate-x-full border-r border-amber-200 dark:border-gray-700 overflow-y-auto">
+            <div class="p-5 h-full flex flex-col">
+                
+                <!-- Logo - Consistent Style -->
+                <div class="flex items-center justify-between mb-8">
+                    <a href="index.html" class="logo">
+                        <i data-lucide="wrench" class="logo-icon"></i>
+                        <div class="logo-text">
+                            <span class="logo-brand">Groww</span>
+                            <span class="logo-brand-light">Vintage</span>
+                        </div>
+                    </a>
+                    
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-amber-100 dark:hover:bg-gray-700 rounded-lg">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- User Profile Card - Vintage Collector -->
+                <div class="bg-gradient-to-r from-primary/10 to-amber-50 dark:from-primary/5 dark:to-gray-800 p-4 rounded-2xl mb-6 border border-primary/20">
+                    <div class="flex items-center gap-3">
+                        <div class="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center text-primary font-black text-xl">
+                            JD
+                        </div>
+                        <div>
+                            <p class="font-black text-gray-900 dark:text-white">James Donovan</p>
+                            <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">james.d@vintage.com</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="w-2 h-2 bg-primary rounded-full"></span>
+                                <span class="text-[8px] font-bold text-primary uppercase">Vintage Member</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vintage Badge -->
+                <div class="mb-4 p-2 bg-amber-100 dark:bg-amber-900/20 rounded-lg border border-primary/20 text-center">
+                    <span class="text-[8px] font-black text-primary uppercase tracking-widest">Classic Car Enthusiast • Since 2024</span>
+                </div>
+
+                <!-- User Navigation Menu - 5 Main Sections -->
+                <nav class="flex-1 space-y-1 overflow-y-auto">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-3 ml-2">
+                        <i data-lucide="menu" class="w-3 h-3 inline mr-1"></i>
+                        MY VINTAGE ACCOUNT
+                    </p>
+                    
+                    <!-- 1. Profile Management -->
+                    <a href="javascript:void(0)" onclick="showPage('profile')" id="btn-profile" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl sidebar-active transition-all hover:bg-amber-50 dark:hover:bg-white/5 group">
+                        <i data-lucide="user-circle" class="w-5 h-5 group-hover:scale-110 transition-transform text-primary"></i>
+                        <span class="font-medium">Profile</span>
+                        <span class="ml-auto bg-primary/10 text-primary text-[8px] font-black px-2 py-1 rounded-full">80%</span>
+                    </a>
+                    
+                    <!-- 2. Order History - Vintage Rentals -->
+                    <a href="javascript:void(0)" onclick="showPage('orders')" id="btn-orders" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="history" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Rental History</span>
+                        <span class="ml-auto bg-primary/10 text-primary text-[8px] font-black px-2 py-1 rounded-full">8</span>
+                    </a>
+                    
+                    <!-- 3. Saved Classics / Wishlist -->
+                    <a href="javascript:void(0)" onclick="showPage('saved')" id="btn-saved" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="heart" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Saved Classics</span>
+                        <span class="ml-auto bg-primary/10 text-primary text-[8px] font-black px-2 py-1 rounded-full">6</span>
+                    </a>
+                    
+                    <!-- 4. Messages / Inbox -->
+                    <a href="javascript:void(0)" onclick="showPage('messages')" id="btn-messages" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="message-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Messages</span>
+                        <span class="ml-auto bg-primary text-white text-[8px] font-black px-2 py-1 rounded-full">3</span>
+                    </a>
+                    
+                    <!-- 5. Settings -->
+                    <a href="javascript:void(0)" onclick="showPage('settings')" id="btn-settings" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="settings" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Settings</span>
+                    </a>
+                </nav>
+
+                <!-- Bottom Controls -->
+                <div class="pt-6 mt-6 border-t border-amber-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between bg-amber-50 dark:bg-gray-800/50 p-2 rounded-2xl">
+                        <button onclick="toggleDirection()" class="p-2.5 hover:bg-white dark:hover:bg-gray-700 rounded-xl shadow-sm transition-all text-gray-400 hover:text-primary flex items-center gap-1">
+                            <i class="fa-solid fa-left-right"></i>
+                        </button>
+                        
+                        <button onclick="toggleDarkMode()" class="p-2.5 bg-white dark:bg-gray-700 rounded-xl text-primary shadow-sm hover:scale-110 transition-all">
+                            <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+                        </button>
+                        <a href="login.html">
+                            <button class="p-2.5 bg-primary/10 rounded-xl text-primary hover:scale-110 transition-all">
+                                <i data-lucide="log-out" class="w-4 h-4"></i>
+                            </button>
+                        </a>
+                    </div>
+                    
+                    <!-- Vintage Club Membership -->
+                    <div class="mt-4 p-3 bg-gradient-to-r from-primary/10 to-amber-100 dark:from-primary/5 dark:to-gray-800 rounded-xl border border-primary/20">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="crown" class="w-4 h-4 text-primary"></i>
+                            <p class="text-[9px] font-black uppercase tracking-wider">Vintage Club · 2,340 points</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-[280px] p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-300 w-full max-w-full overflow-x-hidden">
+            
+            <!-- Header -->
+            <header class="flex items-center justify-between mb-6 sm:mb-8">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2.5 bg-white dark:bg-[#1E293B] rounded-xl custom-shadow border border-amber-200 dark:border-gray-700">
+                            <i id="menuIcon" data-lucide="menu" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-white"></i>
+                        </button>
+                        <div>
+                            <h1 id="pageTitle" class="text-xl sm:text-2xl font-black tracking-tight uppercase">PROFILE</h1>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mt-0.5">
+                                <span class="text-primary font-black">Welcome back</span> · James Donovan
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="flex items-center gap-2">
+                    <div class="hidden sm:flex items-center gap-2 bg-white dark:bg-[#1E293B] px-4 py-2 rounded-xl custom-shadow">
+                        <i data-lucide="bell" class="w-4 h-4 text-primary"></i>
+                        <span class="text-xs font-medium">3</span>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20">
+                        <span class="text-primary font-bold text-sm">JD</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- USER DASHBOARD PAGES - 5 SECTIONS (VINTAGE CAR DATA) -->
+            <div id="mainDisplay" class="space-y-6">
+                
+                <!-- === 1. PROFILE MANAGEMENT PAGE - VINTAGE COLLECTOR === -->
+                <div id="page-profile" class="page-node active">
+                    <!-- Profile Overview -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <!-- Profile Card -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                                <div class="text-center">
+                                    <div class="w-24 h-24 mx-auto bg-gradient-to-br from-primary/20 to-amber-200 dark:from-primary/10 dark:to-gray-700 rounded-full flex items-center justify-center text-primary font-black text-3xl mb-4 border-4 border-white dark:border-gray-700 shadow-lg">
+                                        JD
+                                    </div>
+                                    <h2 class="text-xl font-black text-gray-900 dark:text-white">James Donovan</h2>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Vintage Car Enthusiast</p>
+                                    
+                                    <div class="flex justify-center gap-2 mt-4">
+                                        <span class="bg-primary/10 text-primary text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-wider">
+                                            <i data-lucide="shield" class="w-3 h-3 inline mr-1"></i>
+                                            Verified
+                                        </span>
+                                        <span class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-wider">
+                                            <i data-lucide="crown" class="w-3 h-3 inline mr-1"></i>
+                                            Vintage Club
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6 pt-6 border-t border-amber-200 dark:border-gray-700">
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs text-gray-500 dark:text-gray-400">Email</span>
+                                            <span class="text-xs font-bold">james.d@vintage.com</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs text-gray-500 dark:text-gray-400">Phone</span>
+                                            <span class="text-xs font-bold">+1 (415) 555-1965</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs text-gray-500 dark:text-gray-400">Location</span>
+                                            <span class="text-xs font-bold">San Francisco, CA</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs text-gray-500 dark:text-gray-400">DL Number</span>
+                                            <span class="text-xs font-bold">V7654321 CA</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full mt-6 bg-primary text-white text-xs font-black py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                    <i data-lucide="edit" class="w-4 h-4"></i>
+                                    Edit Profile
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Profile Details & Stats -->
+                        <div class="lg:col-span-2">
+                            <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700 h-full">
+                                <h3 class="text-sm font-black uppercase mb-6 flex items-center gap-2">
+                                    <i data-lucide="user-check" class="w-5 h-5 text-primary"></i>
+                                    Personal Information
+                                </h3>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="text-[10px] font-black text-primary uppercase tracking-wider">Full Name</label>
+                                        <p class="text-sm font-bold mt-1">James Donovan</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-black text-primary uppercase tracking-wider">Date of Birth</label>
+                                        <p class="text-sm font-bold mt-1">03/12/1985</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-black text-primary uppercase tracking-wider">Email Address</label>
+                                        <p class="text-sm font-bold mt-1">james.d@vintage.com</p>
+                                        <span class="text-[8px] text-green-600">Verified</span>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-black text-primary uppercase tracking-wider">Mobile Number</label>
+                                        <p class="text-sm font-bold mt-1">+1 (415) 555-1965</p>
+                                        <span class="text-[8px] text-green-600">Verified</span>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-black text-primary uppercase tracking-wider">Address</label>
+                                        <p class="text-sm font-bold mt-1">221B Baker Street<br>San Francisco, CA 94105</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-black text-primary uppercase tracking-wider">Emergency Contact</label>
+                                        <p class="text-sm font-bold mt-1">+1 (415) 555-1973</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- KYC Status -->
+                                <div class="mt-8 p-4 bg-amber-50 dark:bg-gray-800/50 rounded-xl">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="text-xs font-black uppercase">Verification Status</h4>
+                                        <span class="bg-primary/10 text-primary text-[8px] font-black px-3 py-1.5 rounded-full">80% Complete</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2 mt-4">
+                                        <div class="text-center">
+                                            <span class="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
+                                                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
+                                            </span>
+                                            <p class="text-[8px] font-bold mt-1">SSN</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <span class="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
+                                                <i data-lucide="check" class="w-3 h-3 text-green-600"></i>
+                                            </span>
+                                            <p class="text-[8px] font-bold mt-1">ID Card</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <span class="w-6 h-6 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto">
+                                                <i data-lucide="clock" class="w-3 h-3 text-amber-600"></i>
+                                            </span>
+                                            <p class="text-[8px] font-bold mt-1">License</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="bg-white dark:bg-[#1E293B] p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                        <h3 class="text-sm font-black uppercase mb-4 flex items-center gap-2">
+                            <i data-lucide="activity" class="w-5 h-5 text-primary"></i>
+                            Recent Login Activity
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <i data-lucide="smartphone" class="w-4 h-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold">iPhone 15 Pro · San Francisco</p>
+                                        <p class="text-[8px] text-gray-400">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-[8px] font-black text-primary">Current</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                        <i data-lucide="laptop" class="w-4 h-4 text-gray-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold">MacBook Pro · San Jose</p>
+                                        <p class="text-[8px] text-gray-400">Yesterday</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === 2. ORDER HISTORY PAGE - VINTAGE CAR RENTALS === -->
+                <div id="page-orders" class="page-node">
+                    <div class="bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-black uppercase flex items-center gap-2">
+                                    <i data-lucide="history" class="w-5 h-5 text-primary"></i>
+                                    Vintage Rental History
+                                </h3>
+                                <p class="text-[9px] sm:text-[10px] text-gray-400 mt-1">Your classic car rentals · 8 total</p>
+                            </div>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <button class="flex-1 sm:flex-none bg-amber-100 dark:bg-gray-800 text-primary text-[9px] font-black px-4 py-2.5 rounded-xl">
+                                    <i data-lucide="filter" class="w-3 h-3 inline mr-1"></i>
+                                    Filter
+                                </button>
+                                <button class="flex-1 sm:flex-none bg-primary text-white text-[9px] font-black px-4 py-2.5 rounded-xl">
+                                    <i data-lucide="download" class="w-3 h-3 inline mr-1"></i>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Order Stats -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl text-center">
+                                <p class="text-[8px] font-black text-primary uppercase">Total</p>
+                                <p class="text-lg font-black mt-1">8</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl text-center">
+                                <p class="text-[8px] font-black text-primary uppercase">Active</p>
+                                <p class="text-lg font-black mt-1 text-primary">2</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl text-center">
+                                <p class="text-[8px] font-black text-primary uppercase">Completed</p>
+                                <p class="text-lg font-black mt-1 text-green-600">5</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl text-center">
+                                <p class="text-[8px] font-black text-primary uppercase">Upcoming</p>
+                                <p class="text-lg font-black mt-1 text-amber-600">1</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Order List - VINTAGE CARS -->
+                        <div class="space-y-4">
+                            <!-- Active Order - Mustang -->
+                            <div class="p-4 bg-gradient-to-r from-primary/5 to-amber-50 dark:from-primary/5 dark:to-gray-800 rounded-2xl border border-primary/20">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                            <i data-lucide="car" class="w-6 h-6 text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="font-black text-sm">Ford Mustang '65</p>
+                                                <span class="bg-primary/10 text-primary text-[8px] font-black px-2 py-1 rounded-full uppercase">Active</span>
+                                            </div>
+                                            <p class="text-[9px] text-gray-400 mt-1">Order #V-1965 · Mar 15, 2024</p>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-[8px] font-bold">$89/day</span>
+                                                <span class="text-[8px] text-gray-400">•</span>
+                                                <span class="text-[8px] text-gray-400">V8 · Manual</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                                        <div class="text-right">
+                                            <p class="text-xs font-black">$445</p>
+                                            <p class="text-[8px] text-gray-400">5 days</p>
+                                        </div>
+                                        <button class="p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Completed Order - Porsche -->
+                            <div class="p-4 bg-amber-50 dark:bg-gray-800/50 rounded-2xl">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                            <i data-lucide="car" class="w-6 h-6 text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="font-black text-sm">Porsche 911 '73</p>
+                                                <span class="bg-green-100 text-green-600 text-[8px] font-black px-2 py-1 rounded-full uppercase">Completed</span>
+                                            </div>
+                                            <p class="text-[9px] text-gray-400 mt-1">Order #V-1973 · Mar 5, 2024</p>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-[8px] font-bold">$129/day</span>
+                                                <span class="text-[8px] text-gray-400">•</span>
+                                                <span class="text-[8px] text-gray-400">Flat-6 · 2.4L</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                                        <div class="text-right">
+                                            <p class="text-xs font-black">$387</p>
+                                            <div class="flex items-center gap-0.5 mt-1">
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                            </div>
+                                        </div>
+                                        <button class="p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Completed Order - Jaguar -->
+                            <div class="p-4 bg-amber-50 dark:bg-gray-800/50 rounded-2xl">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                            <i data-lucide="car" class="w-6 h-6 text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="font-black text-sm">Jaguar E-Type '67</p>
+                                                <span class="bg-green-100 text-green-600 text-[8px] font-black px-2 py-1 rounded-full uppercase">Completed</span>
+                                            </div>
+                                            <p class="text-[9px] text-gray-400 mt-1">Order #V-1967 · Feb 20, 2024</p>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-[8px] font-bold">$149/day</span>
+                                                <span class="text-[8px] text-gray-400">•</span>
+                                                <span class="text-[8px] text-gray-400">Straight-6 · 4.2L</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                                        <div class="text-right">
+                                            <p class="text-xs font-black">$298</p>
+                                            <div class="flex items-center gap-0.5 mt-1">
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                                <i data-lucide="star" class="w-3 h-3 text-yellow-400"></i>
+                                            </div>
+                                        </div>
+                                        <button class="p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Upcoming - Mercedes -->
+                            <div class="p-4 bg-gradient-to-r from-amber-100 to-amber-50 dark:from-amber-900/20 dark:to-gray-800 rounded-2xl border border-amber-400/30">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                            <i data-lucide="car" class="w-6 h-6 text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="font-black text-sm">Mercedes 300SL '57</p>
+                                                <span class="bg-amber-100 text-amber-600 text-[8px] font-black px-2 py-1 rounded-full uppercase">Upcoming</span>
+                                            </div>
+                                            <p class="text-[9px] text-gray-400 mt-1">Order #V-1957 · Mar 25, 2024</p>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-[8px] font-bold">$199/day</span>
+                                                <span class="text-[8px] text-gray-400">•</span>
+                                                <span class="text-[8px] text-gray-400">Straight-6 · 3.0L</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                                        <div class="text-right">
+                                            <p class="text-xs font-black">$597</p>
+                                            <p class="text-[8px] text-gray-400">3 days</p>
+                                        </div>
+                                        <button class="p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- View All Button -->
+                        <div class="mt-6 text-center">
+                            <button class="text-primary text-[9px] font-black uppercase hover:underline">
+                                View All 8 Rentals →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === 3. SAVED CLASSICS / WISHLIST PAGE - VINTAGE CARS === -->
+                <div id="page-saved" class="page-node">
+                    <div class="bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-black uppercase flex items-center gap-2">
+                                    <i data-lucide="heart" class="w-5 h-5 text-primary fill-current"></i>
+                                    Saved Classics
+                                </h3>
+                                <p class="text-[9px] sm:text-[10px] text-gray-400 mt-1">Your vintage wishlist · 6 vehicles</p>
+                            </div>
+                            <button class="w-full sm:w-auto bg-primary text-white text-[9px] font-black px-6 py-3 rounded-xl">
+                                <i data-lucide="share-2" class="w-3 h-3 inline mr-1"></i>
+                                Share Wishlist
+                            </button>
+                        </div>
+                        
+                        <!-- Saved Cars Grid - VINTAGE CARS -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Car 1 - Mustang -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-amber-200 dark:border-gray-700 hover:border-primary/30 transition-all car-card">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop" class="w-full h-32 object-cover rounded-xl">
+                                    <button class="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                                        <i data-lucide="heart" class="w-4 h-4 text-primary fill-current"></i>
+                                    </button>
+                                    <span class="absolute top-2 left-2 bg-primary/90 text-white text-[8px] font-black px-2 py-1 rounded-full">$89/day</span>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-black text-sm">Ford Mustang '65</h4>
+                                        <div class="flex items-center gap-1">
+                                            <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                            <span class="text-[10px] font-bold">4.9</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 mt-1">V8 · Manual · 289ci</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <span class="text-[8px] font-bold text-green-600">Available</span>
+                                        <button class="bg-primary/10 text-primary text-[8px] font-black px-3 py-1.5 rounded-full">
+                                            Rent Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Car 2 - Porsche -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-amber-200 dark:border-gray-700 hover:border-primary/30 transition-all car-card">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2070&auto=format&fit=crop" class="w-full h-32 object-cover rounded-xl">
+                                    <button class="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                                        <i data-lucide="heart" class="w-4 h-4 text-primary fill-current"></i>
+                                    </button>
+                                    <span class="absolute top-2 left-2 bg-primary/90 text-white text-[8px] font-black px-2 py-1 rounded-full">$129/day</span>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-black text-sm">Porsche 911 '73</h4>
+                                        <div class="flex items-center gap-1">
+                                            <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                            <span class="text-[10px] font-bold">4.8</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 mt-1">Flat-6 · Manual · 2.4L</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <span class="text-[8px] font-bold text-green-600">Available</span>
+                                        <button class="bg-primary/10 text-primary text-[8px] font-black px-3 py-1.5 rounded-full">
+                                            Rent Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Car 3 - Jaguar -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-amber-200 dark:border-gray-700 hover:border-primary/30 transition-all car-card">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop" class="w-full h-32 object-cover rounded-xl">
+                                    <button class="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                                        <i data-lucide="heart" class="w-4 h-4 text-primary fill-current"></i>
+                                    </button>
+                                    <span class="absolute top-2 left-2 bg-primary/90 text-white text-[8px] font-black px-2 py-1 rounded-full">$149/day</span>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-black text-sm">Jaguar E-Type '67</h4>
+                                        <div class="flex items-center gap-1">
+                                            <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                            <span class="text-[10px] font-bold">4.9</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 mt-1">Straight-6 · 4.2L</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <span class="text-[8px] font-bold text-amber-600">Limited</span>
+                                        <button class="bg-primary/10 text-primary text-[8px] font-black px-3 py-1.5 rounded-full">
+                                            Rent Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Car 4 - Mercedes -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-amber-200 dark:border-gray-700 hover:border-primary/30 transition-all car-card">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=2025&auto=format&fit=crop" class="w-full h-32 object-cover rounded-xl">
+                                    <button class="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                                        <i data-lucide="heart" class="w-4 h-4 text-primary"></i>
+                                    </button>
+                                    <span class="absolute top-2 left-2 bg-primary/90 text-white text-[8px] font-black px-2 py-1 rounded-full">$199/day</span>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-black text-sm">Mercedes 300SL '57</h4>
+                                        <div class="flex items-center gap-1">
+                                            <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                            <span class="text-[10px] font-bold">5.0</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 mt-1">Straight-6 · Gullwing</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <span class="text-[8px] font-bold text-amber-600">Rare</span>
+                                        <button class="bg-primary/10 text-primary text-[8px] font-black px-3 py-1.5 rounded-full">
+                                            Rent Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Car 5 - Corvette -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-amber-200 dark:border-gray-700 hover:border-primary/30 transition-all car-card">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1562911791-c7a97b729ec5?q=80&w=2070&auto=format&fit=crop" class="w-full h-32 object-cover rounded-xl">
+                                    <button class="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                                        <i data-lucide="heart" class="w-4 h-4 text-primary"></i>
+                                    </button>
+                                    <span class="absolute top-2 left-2 bg-primary/90 text-white text-[8px] font-black px-2 py-1 rounded-full">$109/day</span>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-black text-sm">Corvette Stingray '63</h4>
+                                        <div class="flex items-center gap-1">
+                                            <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                            <span class="text-[10px] font-bold">4.8</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 mt-1">V8 · Split Window</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <span class="text-[8px] font-bold text-green-600">Available</span>
+                                        <button class="bg-primary/10 text-primary text-[8px] font-black px-3 py-1.5 rounded-full">
+                                            Rent Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Car 6 - Alfa Romeo -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-amber-200 dark:border-gray-700 hover:border-primary/30 transition-all car-card">
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1619767884558-7c4f08b62b89?q=80&w=2070&auto=format&fit=crop" class="w-full h-32 object-cover rounded-xl">
+                                    <button class="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                                        <i data-lucide="heart" class="w-4 h-4 text-primary"></i>
+                                    </button>
+                                    <span class="absolute top-2 left-2 bg-primary/90 text-white text-[8px] font-black px-2 py-1 rounded-full">$119/day</span>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-black text-sm">Alfa Romeo Giulia</h4>
+                                        <div class="flex items-center gap-1">
+                                            <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                                            <span class="text-[10px] font-bold">4.7</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 mt-1">Twin-Cam · Manual</p>
+                                    <div class="flex items-center justify-between mt-3">
+                                        <span class="text-[8px] font-bold text-green-600">Available</span>
+                                        <button class="bg-primary/10 text-primary text-[8px] font-black px-3 py-1.5 rounded-full">
+                                            Rent Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- View All Saved -->
+                        <div class="mt-6 text-center">
+                            <button class="text-primary text-[9px] font-black uppercase hover:underline">
+                                View All 6 Saved Classics →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === 4. MESSAGES / INBOX PAGE - VINTAGE STYLE === -->
+                <div id="page-messages" class="page-node">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Conversations List -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-white dark:bg-[#1E293B] rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700 overflow-hidden">
+                                <div class="p-4 border-b border-amber-200 dark:border-gray-700">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-black uppercase flex items-center gap-2">
+                                            <i data-lucide="message-circle" class="w-4 h-4 text-primary"></i>
+                                            Messages
+                                        </h3>
+                                        <span class="bg-primary text-white text-[8px] font-black px-2 py-1 rounded-full">3 New</span>
+                                    </div>
+                                    <div class="relative mt-3">
+                                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400"></i>
+                                        <input type="text" placeholder="Search messages..." 
+                                               class="w-full pl-9 pr-4 py-2 bg-amber-50 dark:bg-gray-800 rounded-xl text-[10px] focus:outline-none focus:ring-1 focus:ring-primary/20">
+                                    </div>
+                                </div>
+                                
+                                <div class="divide-y divide-amber-100 dark:divide-gray-700">
+                                    <!-- Unread Message - Vintage Club -->
+                                    <div class="p-4 bg-primary/5 hover:bg-amber-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors">
+                                        <div class="flex gap-3">
+                                            <div class="relative">
+                                                <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-primary font-black">
+                                                    VC
+                                                </div>
+                                                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between">
+                                                    <p class="text-xs font-black">Vintage Club</p>
+                                                    <span class="text-[8px] text-gray-400">5 min ago</span>
+                                                </div>
+                                                <p class="text-[9px] font-bold text-gray-900 dark:text-white">Mustang confirmed</p>
+                                                <p class="text-[8px] text-gray-500 truncate mt-0.5">Your 1965 Mustang rental is confirmed for tomorrow...</p>
+                                                <span class="inline-block mt-1 bg-primary text-white text-[6px] font-black px-1.5 py-0.5 rounded-full">NEW</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Message - Support -->
+                                    <div class="p-4 hover:bg-amber-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors">
+                                        <div class="flex gap-3">
+                                            <div class="relative">
+                                                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-black">
+                                                    GS
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between">
+                                                    <p class="text-xs font-black">GrowwCar Support</p>
+                                                    <span class="text-[8px] text-gray-400">Yesterday</span>
+                                                </div>
+                                                <p class="text-[9px] font-medium text-gray-600 dark:text-gray-400">Trip feedback</p>
+                                                <p class="text-[8px] text-gray-500 truncate mt-0.5">Thank you for choosing GrowwCar Vintage!...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Message - Collector -->
+                                    <div class="p-4 hover:bg-amber-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors">
+                                        <div class="flex gap-3">
+                                            <div class="relative">
+                                                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-black">
+                                                    RC
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between">
+                                                    <p class="text-xs font-black">Richard Collector</p>
+                                                    <span class="text-[8px] text-gray-400">2 days ago</span>
+                                                </div>
+                                                <p class="text-[9px] font-medium text-gray-600 dark:text-gray-400">Porsche meetup</p>
+                                                <p class="text-[8px] text-gray-500 truncate mt-0.5">Are you coming to the vintage car show this weekend?...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-4 border-t border-amber-200 dark:border-gray-700">
+                                    <button class="w-full text-primary text-[8px] font-black uppercase hover:underline">
+                                        View All Messages
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Active Conversation -->
+                        <div class="lg:col-span-2">
+                            <div class="bg-white dark:bg-[#1E293B] rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700 h-full flex flex-col">
+                                <!-- Chat Header -->
+                                <div class="p-4 border-b border-amber-200 dark:border-gray-700 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-primary font-black">
+                                            VC
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-black">Vintage Club</p>
+                                            <p class="text-[8px] text-gray-400">Online · Usually replies in 5 min</p>
+                                        </div>
+                                    </div>
+                                    <button class="p-2 hover:bg-amber-50 dark:hover:bg-gray-800 rounded-lg">
+                                        <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Chat Messages -->
+                                <div class="flex-1 p-4 space-y-4 overflow-y-auto max-h-[400px]">
+                                    <!-- Support Message -->
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary font-black text-xs">
+                                            VC
+                                        </div>
+                                        <div>
+                                            <div class="bg-amber-100 dark:bg-gray-800 rounded-2xl rounded-tl-none p-3 max-w-[300px]">
+                                                <p class="text-[10px]">Hello James! Your booking for the 1965 Ford Mustang is confirmed. 🏎️</p>
+                                            </div>
+                                            <span class="text-[6px] text-gray-400 mt-1 block">10:30 AM</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- User Message -->
+                                    <div class="flex items-start gap-3 justify-end">
+                                        <div>
+                                            <div class="bg-primary/10 rounded-2xl rounded-tr-none p-3 max-w-[300px]">
+                                                <p class="text-[10px]">Perfect! What time can I pick up the Mustang?</p>
+                                            </div>
+                                            <span class="text-[6px] text-gray-400 mt-1 block text-right">10:32 AM</span>
+                                        </div>
+                                        <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary font-black text-xs">
+                                            JD
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Support Message -->
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary font-black text-xs">
+                                            VC
+                                        </div>
+                                        <div>
+                                            <div class="bg-amber-100 dark:bg-gray-800 rounded-2xl rounded-tl-none p-3 max-w-[300px]">
+                                                <p class="text-[10px]">You can pick up from our SF garage at 10 AM. Free vintage delivery included!</p>
+                                            </div>
+                                            <span class="text-[6px] text-gray-400 mt-1 block">10:35 AM</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- User Message -->
+                                    <div class="flex items-start gap-3 justify-end">
+                                        <div>
+                                            <div class="bg-primary/10 rounded-2xl rounded-tr-none p-3 max-w-[300px]">
+                                                <p class="text-[10px]">Excellent! Can't wait to drive this classic. 😊</p>
+                                            </div>
+                                            <span class="text-[6px] text-gray-400 mt-1 block text-right">10:36 AM</span>
+                                        </div>
+                                        <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary font-black text-xs">
+                                            JD
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Chat Input -->
+                                <div class="p-4 border-t border-amber-200 dark:border-gray-700">
+                                    <div class="flex items-center gap-2">
+                                        <button class="p-2 hover:bg-amber-50 dark:hover:bg-gray-800 rounded-lg">
+                                            <i data-lucide="paperclip" class="w-4 h-4"></i>
+                                        </button>
+                                        <input type="text" placeholder="Type your message..." 
+                                               class="flex-1 px-4 py-2 bg-amber-50 dark:bg-gray-800 rounded-xl text-[10px] focus:outline-none focus:ring-1 focus:ring-primary/20">
+                                        <button class="p-2 bg-primary text-white rounded-lg hover:bg-primary/90">
+                                            <i data-lucide="send" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === 5. SETTINGS PAGE - VINTAGE STYLE === -->
+                <div id="page-settings" class="page-node">
+                    <div class="bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex items-center gap-2 mb-6">
+                            <i data-lucide="settings" class="w-6 h-6 text-primary"></i>
+                            <h3 class="text-lg sm:text-xl font-black uppercase">Account Settings</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Settings Menu -->
+                            <div class="lg:col-span-1">
+                                <div class="bg-amber-50 dark:bg-gray-800/50 rounded-xl p-2">
+                                    <button class="w-full flex items-center gap-3 p-3 rounded-lg bg-primary/10 text-primary">
+                                        <i data-lucide="user" class="w-4 h-4"></i>
+                                        <span class="text-xs font-bold">Profile Settings</span>
+                                    </button>
+                                    <button class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white dark:hover:bg-gray-700 transition-colors">
+                                        <i data-lucide="bell" class="w-4 h-4"></i>
+                                        <span class="text-xs font-medium">Notifications</span>
+                                    </button>
+                                    <button class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white dark:hover:bg-gray-700 transition-colors">
+                                        <i data-lucide="lock" class="w-4 h-4"></i>
+                                        <span class="text-xs font-medium">Privacy & Security</span>
+                                    </button>
+                                    <button class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white dark:hover:bg-gray-700 transition-colors">
+                                        <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                        <span class="text-xs font-medium">Payment Methods</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Settings Content -->
+                            <div class="lg:col-span-2">
+                                <div class="space-y-6">
+                                    <!-- Personal Information -->
+                                    <div>
+                                        <h4 class="text-xs font-black uppercase mb-4">Personal Information</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="text-[9px] font-black text-primary uppercase tracking-wider">Full Name</label>
+                                                <input type="text" value="James Donovan" 
+                                                       class="w-full mt-1 px-4 py-2 bg-amber-50 dark:bg-gray-800 border border-amber-200 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary/20">
+                                            </div>
+                                            <div>
+                                                <label class="text-[9px] font-black text-primary uppercase tracking-wider">Email Address</label>
+                                                <input type="email" value="james.d@vintage.com" 
+                                                       class="w-full mt-1 px-4 py-2 bg-amber-50 dark:bg-gray-800 border border-amber-200 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary/20">
+                                            </div>
+                                            <div>
+                                                <label class="text-[9px] font-black text-primary uppercase tracking-wider">Phone Number</label>
+                                                <input type="tel" value="+1 (415) 555-1965" 
+                                                       class="w-full mt-1 px-4 py-2 bg-amber-50 dark:bg-gray-800 border border-amber-200 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary/20">
+                                            </div>
+                                            <div>
+                                                <label class="text-[9px] font-black text-primary uppercase tracking-wider">Date of Birth</label>
+                                                <input type="text" value="03/12/1985" 
+                                                       class="w-full mt-1 px-4 py-2 bg-amber-50 dark:bg-gray-800 border border-amber-200 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary/20">
+                                            </div>
+                                            <div class="sm:col-span-2">
+                                                <label class="text-[9px] font-black text-primary uppercase tracking-wider">Address</label>
+                                                <input type="text" value="221B Baker Street, San Francisco, CA 94105" 
+                                                       class="w-full mt-1 px-4 py-2 bg-amber-50 dark:bg-gray-800 border border-amber-200 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary/20">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Notification Settings -->
+                                    <div>
+                                        <h4 class="text-xs font-black uppercase mb-4">Notification Preferences</h4>
+                                        <div class="space-y-3">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <p class="text-xs font-bold">Email Notifications</p>
+                                                    <p class="text-[8px] text-gray-400">Booking updates & vintage news</p>
+                                                </div>
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" class="sr-only peer" checked>
+                                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                                </label>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <p class="text-xs font-bold">SMS Notifications</p>
+                                                    <p class="text-[8px] text-gray-400">Trip reminders & alerts</p>
+                                                </div>
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" class="sr-only peer">
+                                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                                </label>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <p class="text-xs font-bold">Vintage Club Updates</p>
+                                                    <p class="text-[8px] text-gray-400">Events & exclusive offers</p>
+                                                </div>
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" class="sr-only peer" checked>
+                                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Save Button -->
+                                    <div class="flex gap-3">
+                                        <button class="bg-primary text-white text-[10px] font-black px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors">
+                                            Save Changes
+                                        </button>
+                                        <button class="bg-amber-100 dark:bg-gray-800 text-primary text-[10px] font-black px-6 py-3 rounded-xl hover:bg-amber-200 dark:hover:bg-gray-700 transition-colors">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="mt-8 text-center text-[8px] sm:text-[9px] text-primary/60 uppercase tracking-wider">
+                <p>© 2024 GrowwCar Vintage · Classic Car Rentals</p>
+                <p class="mt-1">Drive History · Preserve the Legacy</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            
+            if (window.innerWidth < 1024) {
+                if (overlay) {
+                    overlay.classList.toggle('hidden');
+                }
+            }
+            
+            if (menuIcon) {
+                const isHidden = sidebar.classList.contains('-translate-x-full');
+                menuIcon.setAttribute('data-lucide', isHidden ? 'menu' : 'x');
+                lucide.createIcons();
+            }
+        }
+
+        // Window resize handler
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+                if (overlay) overlay.classList.add('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                if (overlay) overlay.classList.add('hidden');
+            }
+        });
+
+        // Dark Mode
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            
+            const icon = document.getElementById('themeIcon');
+            const isDark = html.classList.contains('dark');
+            
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+            
+            localStorage.setItem('darkMode', isDark ? 'dark' : 'light');
+        }
+
+        // Check saved dark mode
+        if (localStorage.getItem('darkMode') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.getElementById('themeIcon')?.setAttribute('data-lucide', 'sun');
+            lucide.createIcons();
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.getElementById('htmlTag');
+            const dirText = document.getElementById('dirText');
+            
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            dirText.innerText = html.dir.toUpperCase();
+            
+            lucide.createIcons();
+        }
+
+        // Page Switching - 5 User Pages
+        function showPage(pageId) {
+            document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
+            
+            const targetNode = document.getElementById('page-' + pageId);
+            if (targetNode) {
+                targetNode.classList.add('active');
+            }
+            
+            const pageTitles = {
+                'profile': 'PROFILE',
+                'orders': 'RENTAL HISTORY',
+                'saved': 'SAVED CLASSICS',
+                'messages': 'MESSAGES',
+                'settings': 'SETTINGS'
+            };
+            
+            const titleElement = document.getElementById('pageTitle');
+            if (titleElement) {
+                titleElement.innerText = pageTitles[pageId] || pageId.toUpperCase();
+            }
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('sidebar-active');
+            });
+            
+            const activeBtn = document.getElementById('btn-' + pageId);
+            if (activeBtn) {
+                activeBtn.classList.add('sidebar-active');
+            }
+
+            if (window.innerWidth < 1024) {
+                toggleSidebar();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.createElement('div');
+            overlay.id = 'sidebarOverlay';
+            overlay.className = 'fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300';
+            overlay.onclick = toggleSidebar;
+            document.body.appendChild(overlay);
+            
+            showPage('profile');
+            lucide.createIcons();
+        });
+
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

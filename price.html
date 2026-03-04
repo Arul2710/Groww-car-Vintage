@@ -1,0 +1,1324 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GrowwCar Vintage  - price</title>
+    <link rel="icon" type="imags/jpg" href="img/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#dc2626',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Red Theme */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        
+        .navbar.scrolled {
+            top: 10px;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.25);
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #dc2626;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .dark .logo span:last-child {
+            color: white;
+        }
+        
+        /* Nav Links - With Red Hover */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover {
+            background: #dc2626;
+            color: white !important;
+            
+        }
+        
+        .nav-link.active {
+            background: #dc2626;
+            color: white !important;
+            
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 10px;
+            min-width: 180px;
+            background: white;
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark .dropdown-menu {
+            background: #1e293b;
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #dc2626;
+            margin-bottom: 30px;
+        }
+        
+        .dark .mobile-header {
+            border-color: #dc2626;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+        }
+        
+        .close-btn:hover {
+            background: #b91c1c;
+            transform: rotate(90deg);
+        }
+        
+        /* Mobile Links - With Red Hover */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 25px;
+            margin: 8px 0;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1e293b;
+            background: rgba(220, 38, 38, 0.05);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .mobile-link {
+            color: #e2e8f0;
+            background: rgba(220, 38, 38, 0.1);
+        }
+        
+        .mobile-link:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateX(10px);
+        }
+        
+        .mobile-link.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Mobile Submenu */
+        .mobile-submenu {
+            margin-left: 30px;
+            padding-left: 30px;
+            border-left: 2px solid #dc2626;
+            display: none;
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: block;
+            padding: 15px 25px;
+            margin: 5px 0;
+            border-radius: 50px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+        }
+        
+        .mobile-submenu a:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateX(10px);
+        }
+        
+        .mobile-submenu a.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: #dc2626;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .action-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        /* Auth Buttons */
+        .auth-btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .login-btn {
+            background: transparent;
+            border: 2px solid #dc2626;
+            color: #dc2626;
+        }
+        
+        .login-btn:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+        }
+        
+        .signup-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        .signup-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.5);
+        }
+        
+        /* Settings Section */
+        .settings-section {
+            background: rgba(220, 38, 38, 0.05);
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            border-radius: 24px;
+            padding: 20px;
+        }
+        
+        .dark .settings-section {
+            background: rgba(220, 38, 38, 0.1);
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+            #mobileMenu {
+                display: block !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            #mobileMenu {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro Specific */
+        @media (min-width: 1024px) and (max-width: 1366px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+            #mobileMenu {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Red Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo - Red with Wrench Icon -->
+                <a href="index.html" class="logo">
+                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    <span class="font-black text-lg text-primary">Groww</span>
+                    <span class="font-black text-lg text-gray-500 dark:text-white">Vintage</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-group relative inline-block">
+                        <button class="nav-link">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item ">Home 1</a>
+                            <a href="home2.html" class="dropdown-item">Home 2</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="nav-link  ">About</a>
+                    <a href="services.html" class="nav-link ">Services</a>
+                    <a href="booking.html" class="nav-link">Booking</a>
+                    <a href="price.html" class="nav-link active">Price</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-group relative inline-block">
+                        <button class="nav-link">
+                            Dashboard <i data-lucide="chevron-down" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">Admin</a>
+                            <a href="user.html" class="dropdown-item">User</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <!-- Theme & Direction -->
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn">
+                          <i class="fa-solid fa-left-right"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Auth -->
+                    <div class="desktop-auth relative dropdown-group">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="login.html" class="dropdown-item">Login</a>
+                            <a href="signup.html" class="dropdown-item">Signup</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div id="mobileMenu">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                <span class="font-black text-primary">Groww</span>
+                <span class="font-black text-gray-500 dark:text-white">Vintage</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="px-4">
+            <!-- Home Section -->
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link">
+                <span>HOME</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()" class="">HOME 1</a>
+                <a href="home2.html" onclick="closeMobileMenu()">HOME 2</a>
+            </div>
+
+            <a href="about.html" class="mobile-link  " onclick="closeMobileMenu()">
+                <span>ABOUT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="services.html" class="mobile-link " onclick="closeMobileMenu()">
+                <span>SERVICES</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="booking.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>BOOKING</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="price.html" class="mobile-link active" onclick="closeMobileMenu()">
+                <span>PRICE</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="contact.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>CONTACT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Dashboard Section -->
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>DASHBOARD</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+                <a href="user.html" onclick="closeMobileMenu()">USER</a>
+            </div>
+
+            <!-- Settings -->
+            <div class="settings-section mt-8">
+                <div class="flex items-center justify-between mb-5">
+                    <span class="font-bold text-gray-900 dark:text-white">DIRECTION</span>
+                    <button onclick="toggleDirection()" class="action-btn">
+                        <i class="fa-solid fa-left-right"></i>
+                    </button>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-gray-900 dark:text-white">THEME</span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="mt-5 flex gap-3">
+                <a href="login.html" class="auth-btn login-btn flex-1" onclick="closeMobileMenu()">LOGIN</a>
+                <a href="signup.html" class="auth-btn signup-btn flex-1" onclick="closeMobileMenu()">SIGNUP</a>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.toggle('open');
+            body.classList.toggle('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.remove('open');
+            body.classList.remove('menu-open');
+            
+            document.querySelectorAll('.mobile-submenu').forEach(submenu => {
+                submenu.classList.remove('open');
+            });
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const icon = submenu.previousElementSibling.querySelector('i:last-child');
+            
+            document.querySelectorAll('.mobile-submenu').forEach(menu => {
+                if (menu.id !== submenuId && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    const prevIcon = menu.previousElementSibling.querySelector('i:last-child');
+                    if (prevIcon) prevIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            submenu.classList.toggle('open');
+            
+            if (icon) {
+                icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            html.classList.toggle('dark');
+            body.classList.toggle('dark');
+            
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            const mobileDirText = document.getElementById('mobileDirText');
+            
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            
+            if (mobileDirText) {
+                mobileDirText.innerText = html.dir.toUpperCase();
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileDirText = document.getElementById('mobileDirText');
+            if (mobileDirText) {
+                mobileDirText.innerText = document.documentElement.dir.toUpperCase();
+            }
+            lucide.createIcons();
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('open')) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                });
+            }
+        });
+    </script>
+
+
+<!-- ============================================ -->
+<!-- SECTION 1: HERO - PRICING PAGE HEADER -->
+<!-- ============================================ -->
+<section class="relative w-full py-20 md:py-28 lg:py-32 px-4 overflow-hidden bg-white dark:bg-zinc-950 transition-colors duration-500">
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="container mx-auto relative z-10 max-w-7xl">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+            
+            <div class="w-full lg:w-1/2 text-center lg:text-left">
+                <div class="inline-flex items-center gap-3 dark:bg-red-900/20 px-4 py-2 rounded-full mb-6">
+                    
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 leading-tight uppercase tracking-tighter">
+                    Modify Your <span class="text-red-600">Dream</span> Cars
+                </h1>
+                
+                <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed italic">
+                    Expert restoration and performance tuning. From vintage aesthetics to modern power, we redefine your driving machine.
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0">
+                    <div class="group p-5 bg-gray-50 dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 hover:border-red-600/30 transition-all shadow-sm">
+                        <div class="text-3xl font-black text-red-600 group-hover:scale-110 transition-transform">65<span class="text-sm">+</span></div>
+                        <div class="text-[10px] font-black text-gray-900 dark:text-zinc-400 uppercase tracking-widest mt-1">Modif Sets</div>
+                    </div>
+                    
+                    <div class="group p-5 bg-gray-50 dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 hover:border-red-600/30 transition-all shadow-sm">
+                        <div class="text-3xl font-black text-red-600 group-hover:scale-110 transition-transform">15k<span class="text-sm">+</span></div>
+                        <div class="text-[10px] font-black text-gray-900 dark:text-zinc-400 uppercase tracking-widest mt-1">Coker Wheels</div>
+                    </div>
+                    
+                    <div class="group p-5 bg-gray-50 dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 hover:border-red-600/30 transition-all shadow-sm">
+                        <div class="text-3xl font-black text-red-600 group-hover:scale-110 transition-transform">24/7</div>
+                        <div class="text-[10px] font-black text-gray-900 dark:text-zinc-400 uppercase tracking-widest mt-1">Exhaust Support</div>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-black py-4 px-10 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg shadow-red-600/20">
+                        <a href="booking.html">Start Your Project</a>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-1/2 relative group">
+                <div class="relative rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-zinc-800 transition-all group-hover:shadow-red-600/10">
+                    <img src="img/price3.jpg" 
+                         alt="Modified Vintage Car" 
+                         class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-[2s]">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    
+                    <div class="absolute bottom-8 left-8 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md px-8 py-4 rounded-2xl shadow-2xl border-l-4 border-red-600">
+                        <span class="text-[10px] text-gray-500 dark:text-gray-400 block font-black uppercase tracking-[0.2em] mb-1">Custom Silencers from</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl font-black text-red-600">₹1,299</span>
+                            <span class="text-[10px] text-gray-400 font-bold">Inst. Free</span>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute top-6 left-6 w-14 h-14 border-t-2 border-l-2 border-white/40 rounded-tl-3xl"></div>
+                    <div class="absolute top-6 right-6 w-14 h-14 border-t-2 border-r-2 border-white/40 rounded-tr-3xl"></div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</section>
+
+
+
+
+<!-- ============================================ -->
+<!-- SECTION : COMPARE PLANS - PRICING TABLE -->
+<!-- ============================================ -->
+<section class="relative w-full py-20 md:py-24 lg:py-28 px-4 bg-gray-100 dark:bg-zinc-950 overflow-hidden font-['Poppins'] transition-colors duration-500">
+    
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="container mx-auto relative z-10 max-w-7xl">
+        <div class="text-center mb-16 max-w-3xl mx-auto">
+            
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mt-4 mb-4 uppercase tracking-tighter">
+                Modification <span class="text-red-600">Packages</span>
+            </h2>
+            <div class="w-24 h-1.5 bg-red-600 mx-auto rounded-full shadow-[0_0_15px_rgba(220,38,38,0.4)]"></div>
+            <p class="text-gray-500 dark:text-zinc-400 text-sm md:text-base mt-8 max-w-2xl mx-auto leading-relaxed">
+                Choose the perfect custom set for your vintage machine. From seat upholstery to exhaust notes, we've got you covered.
+            </p>
+        </div>
+        
+        <div class="bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 dark:border-zinc-800">
+            <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100 dark:divide-zinc-800">
+                
+                <div class="p-10 text-center relative group hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-all duration-500">
+                    <div class="inline-flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 px-4 py-2 rounded-full mb-8">
+                        <i class="fas fa-tools text-red-600 text-xs"></i>
+                        <span class="text-[10px] font-black text-gray-600 dark:text-zinc-400 uppercase tracking-widest">Base Mod</span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4 uppercase tracking-tight">Standard</h3>
+                    
+                    <div class="mb-8">
+                        <span class="text-4xl font-black text-red-600">₹4,999</span>
+                        <span class="text-xs text-gray-400 uppercase font-bold tracking-widest block mt-1">Starting From</span>
+                    </div>
+                    
+                    <ul class="space-y-5 mb-10 text-left">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-palette text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Basic Seat Color (2 Shades)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-wind text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Standard Chrome Silencer</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-bullhorn text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Classic Single Tone Horn</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-lock text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Manual Body Lock System</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-zinc-900 dark:bg-zinc-800 hover:bg-red-600 dark:hover:bg-red-600 text-white font-black py-4 rounded-2xl transition-all text-xs uppercase tracking-[0.2em]">
+                        Select Set
+                    </button>
+                </div>
+                
+                <div class="p-10 text-center relative group bg-zinc-50 dark:bg-zinc-800/30 border-x-0 md:border-x border-gray-100 dark:border-zinc-800">
+                    
+                    
+                    <div class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/20 px-4 py-2 rounded-full mb-8">
+                        <i class="fas fa-fire text-red-600 text-xs"></i>
+                        <span class="text-[10px] font-black text-red-600 uppercase tracking-widest">Custom Pro</span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4 uppercase tracking-tight">Performance</h3>
+                    
+                    <div class="mb-8">
+                        <span class="text-4xl font-black text-red-600">₹12,499</span>
+                        <span class="text-xs text-gray-400 uppercase font-bold tracking-widest block mt-1">Starting From</span>
+                    </div>
+                    
+                    <ul class="space-y-5 mb-10 text-left">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-palette text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-bold">Premium Leather Seat (All Colors)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-wind text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-bold">Custom Sports Silencer</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-bullhorn text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-bold">Dual-Tone Air Horn Set</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-lock text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-bold">Anti-Theft Central Lock</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-2xl transition-all text-xs uppercase tracking-[0.2em] shadow-xl shadow-red-600/30">
+                        Customize Now
+                    </button>
+                </div>
+                
+                <div class="p-10 text-center relative group hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-all duration-500">
+                    <div class="inline-flex items-center gap-2 bg-zinc-100 dark:bg-zinc-800 px-4 py-2 rounded-full mb-8">
+                        <i class="fas fa-gem text-red-600 text-xs"></i>
+                        <span class="text-[10px] font-black text-gray-600 dark:text-zinc-400 uppercase tracking-widest">Heritage Elite</span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4 uppercase tracking-tight">Showroom</h3>
+                    
+                    <div class="mb-8">
+                        <span class="text-4xl font-black text-red-600">₹24,999</span>
+                        <span class="text-xs text-gray-400 uppercase font-bold tracking-widest block mt-1">Full Restoration</span>
+                    </div>
+                    
+                    <ul class="space-y-5 mb-10 text-left">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-palette text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Custom Quilted Seat </span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-wind text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Dual High-Flow Silencers</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-bullhorn text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Vintage Musical Horn Selection</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-lock text-red-600 text-sm"></i>
+                            <span class="text-sm text-gray-600 dark:text-zinc-300 font-medium">Biometric Body Lock </span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full border-2 border-zinc-900 dark:border-zinc-700 hover:border-red-600 text-zinc-900 dark:text-zinc-300 hover:text-red-600 font-black py-4 rounded-2xl transition-all text-xs uppercase tracking-[0.2em]">
+                        Select Set
+                    </button>
+                </div>
+            </div>
+            
+            
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 border-t border-gray-100 dark:border-zinc-900 pt-12">
+            <div class="flex flex-col items-center gap-3 group">
+                <i class="fas fa-cog text-red-600 text-2xl group-hover:rotate-90 transition-transform duration-500"></i>
+                <span class="text-[10px] font-black text-gray-600 dark:text-zinc-500 uppercase tracking-widest">Genuine Parts</span>
+            </div>
+            <div class="flex flex-col items-center gap-3 group">
+                <i class="fas fa-user-gear text-red-600 text-2xl group-hover:scale-110 transition-transform"></i>
+                <span class="text-[10px] font-black text-gray-600 dark:text-zinc-500 uppercase tracking-widest">Expert Mechanics</span>
+            </div>
+            <div class="flex flex-col items-center gap-3 group">
+                <i class="fas fa-bolt text-red-600 text-2xl group-hover:animate-pulse"></i>
+                <span class="text-[10px] font-black text-gray-600 dark:text-zinc-500 uppercase tracking-widest">Fast Delivery</span>
+            </div>
+            <div class="flex flex-col items-center gap-3 group">
+                <i class="fas fa-award text-red-600 text-2xl group-hover:rotate-12 transition-transform"></i>
+                <span class="text-[10px] font-black text-gray-600 dark:text-zinc-500 uppercase tracking-widest">Quality Check</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<section class="relative w-full py-20 md:py-24 lg:py-28 px-4 bg-gray-50 dark:bg-zinc-950 overflow-hidden font-['Poppins'] transition-colors duration-500">
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="container mx-auto relative z-10 max-w-7xl">
+        <div class="text-center mb-16 max-w-3xl mx-auto">
+        
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mt-4 mb-4 uppercase tracking-tighter">
+                Best Price <span class="text-red-600">Modif</span> Collection
+            </h2>
+            <div class="w-20 h-1.5 bg-red-600 mx-auto rounded-full"></div>
+            <p class="text-gray-500 dark:text-zinc-400 text-sm md:text-base mt-6 max-w-2xl mx-auto italic font-medium">
+                Choose your custom upgrade path. From vintage aesthetics to performance exhausts.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div class="group bg-white dark:bg-zinc-900 rounded-3xl shadow-xl hover:shadow-red-600/10 hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-gray-100 dark:border-zinc-800">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="img/price2.jpg" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-zinc-900 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase">Standard Mod</div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-1 uppercase tracking-tight">Basic Pack</h3>
+                    <p class="text-red-600 text-[10px] font-bold uppercase mb-4 tracking-widest">Street Upgrade</p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-couch text-red-600 w-4"></i> <span>2-Tone Seat Cover</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-wind text-red-600 w-4"></i> <span>Chrome Silencer</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-bullhorn text-red-600 w-4"></i> <span>Standard Horn</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-4 mb-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-black uppercase text-zinc-400">Starting Price</span>
+                            <span class="text-xl font-black text-red-600 tracking-tighter">₹4,999</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-zinc-900 dark:bg-zinc-800 hover:bg-red-600 text-white font-black py-3 rounded-xl transition-all text-[10px] uppercase tracking-widest">
+                        Choose This Mod
+                    </button>
+                </div>
+            </div>
+            
+            <div class="group bg-white dark:bg-zinc-900 rounded-3xl shadow-xl hover:shadow-red-600/10 hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-gray-100 dark:border-zinc-800">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="img/home2-4.jpg" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase">Most Popular</div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-1 uppercase tracking-tight">Pro Custom</h3>
+                    <p class="text-red-600 text-[10px] font-bold uppercase mb-4 tracking-widest">Performance Pack</p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-couch text-red-600 w-4"></i> <span>Premium Leather Seat</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-wind text-red-600 w-4"></i> <span>Sporty Exhaust Mod</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-bullhorn text-red-600 w-4"></i> <span>Dual Tone Air Horn</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-4 mb-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-black uppercase text-zinc-400">Starting Price</span>
+                            <span class="text-xl font-black text-red-600 tracking-tighter">₹12,499</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition-all text-[10px] uppercase tracking-widest shadow-lg shadow-red-600/20">
+                        Choose This Mod
+                    </button>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="group bg-white dark:bg-zinc-900 rounded-3xl shadow-xl hover:shadow-red-600/10 hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-gray-100 dark:border-zinc-800">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="img/price1.jpg" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase">Most Popular</div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-1 uppercase tracking-tight">Heritage Elite</h3>
+                    <p class="text-red-600 text-[10px] font-bold uppercase mb-4 tracking-widest">Restoration Pack</p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-couch text-red-600 w-4"></i> <span>Quilted Design Seat</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-wind text-red-600 w-4"></i> <span>Dual Custom Muffler</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-bullhorn text-red-600 w-4"></i> <span>Vintage Musical Horn</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-4 mb-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-black uppercase text-zinc-400">Starting Price</span>
+                            <span class="text-xl font-black text-red-600 tracking-tighter">₹24,999</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl transition-all text-[10px] uppercase tracking-widest shadow-lg shadow-red-600/20">
+                        Choose This Mod
+                    </button>
+                </div>
+            </div>
+
+
+
+
+            
+            
+
+            <div class="group bg-white dark:bg-zinc-900 rounded-3xl shadow-xl hover:shadow-red-600/10 hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-gray-100 dark:border-zinc-800">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="img/price3.jpg" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute top-3 left-3 bg-zinc-900 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase">Security</div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-lg font-black text-gray-900 dark:text-white mb-1 uppercase tracking-tight">Body Lock Pro</h3>
+                    <p class="text-red-600 text-[10px] font-bold uppercase mb-4 tracking-widest">Security Pack</p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-lock text-red-600 w-4"></i> <span>Central Body Lock</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-fingerprint text-red-600 w-4"></i> <span>Biometric Ignition</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-zinc-400">
+                            <i class="fas fa-shield-alt text-red-600 w-4"></i> <span>Anti-Theft System</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 dark:border-zinc-800 pt-4 mb-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-black uppercase text-zinc-400">Starting Price</span>
+                            <span class="text-xl font-black text-red-600 tracking-tighter">₹8,999</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-zinc-900 dark:bg-zinc-800 hover:bg-red-600 text-white font-black py-3 rounded-xl transition-all text-[10px] uppercase tracking-widest">
+                        Choose This Mod
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+ <!-- FOOTER - Fully Responsive with Mobile & Tablet Optimization -->
+    <footer class="bg-gray-900 text-white pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main Footer Grid - Responsive breakpoints -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 mb-10 sm:mb-12 md:mb-16">
+                
+                <!-- Brand Section - Full width on mobile -->
+                <div class="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1">
+                    <!-- Logo - Red with Wrench Icon -->
+                <a href="index.html" class="logo">
+                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    <span class="font-black text-lg text-primary">Groww</span>
+                    <span class="font-black text-lg text-gray-400 dark:text-white">Vintage</span>
+                </a>
+                    <p class="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 max-w-xs mx-auto sm:mx-0">
+                        India's premier vintage car restoration specialists since 1985. Bringing classics back to life.
+                    </p>
+                    
+                    <!-- Social Icons - Responsive sizing -->
+                    <div class="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <a href="https://facebook.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-facebook-f text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-instagram text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-twitter text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-youtube text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-linkedin-in text-sm sm:text-base text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links - Centered on mobile -->
+                <div class="text-center sm:text-left">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Quick Links
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-sm sm:text-base mt-4 sm:mt-6">
+                        <li><a href="index.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Services</a></li>
+                        <li><a href="gallery.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Gallery</a></li>
+                        <li><a href="price.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Price</a></li>
+                        <li class="sm:hidden"><a href="contact.html" class="hover:text-white hover:pl-2 inline-block transition-all duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services - Centered on mobile -->
+                <div class="text-center sm:text-left">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Services
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-sm sm:text-base mt-4 sm:mt-6">
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Body Restoration</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Engine Rebuilding</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Interior Refurb</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Custom Paint</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Parts Sourcing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info - Better mobile layout -->
+                <div class="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Workshop
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    
+                    <!-- Contact Cards - Responsive grid -->
+                    <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-1 gap-3 mt-4 sm:mt-6">
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="map-pin" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <span class="truncate">Indiranagar, Bangalore</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="phone" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <a href="tel:+919876543210" class="hover:text-white transition truncate">+11 11122334410</a>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="mail" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <a href="mailto:hello@gowwvintage.com" class="hover:text-white transition truncate">hello@gowwvintage.com</a>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="clock" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <span>Mon–Sat · 9AM – 7PM</span>
+                        </div>
+                    </div>
+
+                    <!-- Map Link - Mobile only -->
+                    <a href="#" class="mt-4 sm:hidden inline-flex items-center gap-2 text-red-400 text-sm">
+                        <i data-lucide="navigation" class="w-4 h-4"></i>
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bottom Footer - Fully responsive -->
+            <div class="pt-6 sm:pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center 
+                        text-gray-400 text-xs sm:text-sm gap-4 sm:gap-0">
+                
+                <!-- Copyright - Mobile optimized -->
+                <div class="text-center sm:text-left order-2 sm:order-1">
+                    <span class="block sm:inline">© 2025 Goww Car Vintage.</span>
+                    <span class="hidden sm:inline mx-2">|</span>
+                    <span class="block sm:inline mt-1 sm:mt-0">All rights reserved.</span>
+                </div>
+
+                <!-- Footer Links - Better mobile touch targets -->
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6 order-1 sm:order-2">
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Sitemap</a>
+                </div>
+
+                <!-- Payment Methods / Trust Badge - Optional for mobile -->
+                <div class="flex items-center gap-2 mt-4 sm:mt-0 order-3 text-gray-500">
+                    <i class="fas fa-shield-alt text-xs sm:text-sm"></i>
+                    <span class="text-xs">Secure & Trusted</span>
+                </div>
+            </div>
+
+            <!-- Mobile App Promo - Only visible on mobile -->
+            <div class="mt-6 sm:hidden flex justify-center gap-4 pt-4 border-t border-gray-800">
+                <a href="#" class="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-lg">
+                    <i class="fab fa-google-play text-red-400"></i>
+                    <span class="text-xs">Get our App</span>
+                </a>
+                <a href="#" class="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-lg">
+                    <i class="fab fa-apple text-red-400"></i>
+                    <span class="text-xs">App Store</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+</body>
+</html>

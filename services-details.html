@@ -1,0 +1,1715 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GrowwCar Vintage  - services-details</title>
+    <link rel="icon" type="imags/jpg" href="img/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#dc2626',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Red Theme */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        
+        .navbar.scrolled {
+            top: 10px;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.25);
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #dc2626;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .dark .logo span:last-child {
+            color: white;
+        }
+        
+        /* Nav Links - With Red Hover */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover {
+            background: #dc2626;
+            color: white !important;
+            
+        }
+        
+        .nav-link.active {
+            background: #dc2626;
+            color: white !important;
+            
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 10px;
+            min-width: 180px;
+            background: white;
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark .dropdown-menu {
+            background: #1e293b;
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #dc2626;
+            margin-bottom: 30px;
+        }
+        
+        .dark .mobile-header {
+            border-color: #dc2626;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+        }
+        
+        .close-btn:hover {
+            background: #b91c1c;
+            transform: rotate(90deg);
+        }
+        
+        /* Mobile Links - With Red Hover */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 25px;
+            margin: 8px 0;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1e293b;
+            background: rgba(220, 38, 38, 0.05);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .mobile-link {
+            color: #e2e8f0;
+            background: rgba(220, 38, 38, 0.1);
+        }
+        
+        .mobile-link:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateX(10px);
+        }
+        
+        .mobile-link.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Mobile Submenu */
+        .mobile-submenu {
+            margin-left: 30px;
+            padding-left: 30px;
+            border-left: 2px solid #dc2626;
+            display: none;
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: block;
+            padding: 15px 25px;
+            margin: 5px 0;
+            border-radius: 50px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+        }
+        
+        .mobile-submenu a:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateX(10px);
+        }
+        
+        .mobile-submenu a.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: #dc2626;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .action-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        /* Auth Buttons */
+        .auth-btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .login-btn {
+            background: transparent;
+            border: 2px solid #dc2626;
+            color: #dc2626;
+        }
+        
+        .login-btn:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+        }
+        
+        .signup-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        .signup-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.5);
+        }
+        
+        /* Settings Section */
+        .settings-section {
+            background: rgba(220, 38, 38, 0.05);
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            border-radius: 24px;
+            padding: 20px;
+        }
+        
+        .dark .settings-section {
+            background: rgba(220, 38, 38, 0.1);
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+            #mobileMenu {
+                display: block !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            #mobileMenu {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro Specific */
+        @media (min-width: 1024px) and (max-width: 1366px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+            #mobileMenu {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Red Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo - Red with Wrench Icon -->
+                <a href="index.html" class="logo">
+                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    <span class="font-black text-lg text-primary">Groww</span>
+                    <span class="font-black text-lg text-gray-500 dark:text-white">Vintage</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-group relative inline-block">
+                        <button class="nav-link">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item ">Home 1</a>
+                            <a href="home2.html" class="dropdown-item">Home 2</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="nav-link  ">About</a>
+                    <a href="services.html" class="nav-link active">Services</a>
+                    <a href="booking.html" class="nav-link">Booking</a>
+                    <a href="price.html" class="nav-link">Price</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-group relative inline-block">
+                        <button class="nav-link">
+                            Dashboard <i data-lucide="chevron-down" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">Admin</a>
+                            <a href="user.html" class="dropdown-item">User</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <!-- Theme & Direction -->
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn">
+                          <i class="fa-solid fa-left-right"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Auth -->
+                    <div class="desktop-auth relative dropdown-group">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="login.html" class="dropdown-item">Login</a>
+                            <a href="signup.html" class="dropdown-item">Signup</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div id="mobileMenu">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                <span class="font-black text-primary">Groww</span>
+                <span class="font-black text-gray-500 dark:text-white">Vintage</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="px-4">
+            <!-- Home Section -->
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link">
+                <span>HOME</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()" class="">HOME 1</a>
+                <a href="home2.html" onclick="closeMobileMenu()">HOME 2</a>
+            </div>
+
+            <a href="about.html" class="mobile-link  " onclick="closeMobileMenu()">
+                <span>ABOUT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="services.html" class="mobile-link active" onclick="closeMobileMenu()">
+                <span>SERVICES</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="booking.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>BOOKING</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="price.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>PRICE</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="contact.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>CONTACT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Dashboard Section -->
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>DASHBOARD</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+                <a href="user.html" onclick="closeMobileMenu()">USER</a>
+            </div>
+
+            <!-- Settings -->
+            <div class="settings-section mt-8">
+                <div class="flex items-center justify-between mb-5">
+                    <span class="font-bold text-gray-900 dark:text-white">DIRECTION</span>
+                    <button onclick="toggleDirection()" class="action-btn">
+                        <i class="fa-solid fa-left-right"></i>
+                    </button>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-gray-900 dark:text-white">THEME</span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="mt-5 flex gap-3">
+                <a href="login.html" class="auth-btn login-btn flex-1" onclick="closeMobileMenu()">LOGIN</a>
+                <a href="signup.html" class="auth-btn signup-btn flex-1" onclick="closeMobileMenu()">SIGNUP</a>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.toggle('open');
+            body.classList.toggle('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.remove('open');
+            body.classList.remove('menu-open');
+            
+            document.querySelectorAll('.mobile-submenu').forEach(submenu => {
+                submenu.classList.remove('open');
+            });
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const icon = submenu.previousElementSibling.querySelector('i:last-child');
+            
+            document.querySelectorAll('.mobile-submenu').forEach(menu => {
+                if (menu.id !== submenuId && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    const prevIcon = menu.previousElementSibling.querySelector('i:last-child');
+                    if (prevIcon) prevIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            submenu.classList.toggle('open');
+            
+            if (icon) {
+                icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            html.classList.toggle('dark');
+            body.classList.toggle('dark');
+            
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            const mobileDirText = document.getElementById('mobileDirText');
+            
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            
+            if (mobileDirText) {
+                mobileDirText.innerText = html.dir.toUpperCase();
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileDirText = document.getElementById('mobileDirText');
+            if (mobileDirText) {
+                mobileDirText.innerText = document.documentElement.dir.toUpperCase();
+            }
+            lucide.createIcons();
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('open')) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                });
+            }
+        });
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #ffffff;
+        }
+        
+    
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        /* Vintage overlay effect */
+        .vintage-overlay {
+            position: relative;
+        }
+        
+        .vintage-overlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+    </style>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Vintage & Classic | Heritage Restorations</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #ffffff;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 3px;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        /* Vintage overlay effect */
+        .vintage-overlay {
+            position: relative;
+        }
+        
+        .vintage-overlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+
+<!-- HERO SECTION - VINTAGE CAR RESTORATION -->
+<!-- HERO SECTION - OPTIMIZED DARK MODE WITH BETTER CONTRAST -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-black font-sans py-20">
+    <!-- Background Image with Dynamic Overlay -->
+    <div class="absolute inset-0 z-0">
+        <img src="img/home2-1.jpg" 
+             alt="Vintage Classic Car" 
+             class="w-full h-full object-cover opacity-50 md:opacity-60 scale-105 transition-transform duration-[20s] hover:scale-110">
+        
+        <!-- Gradient overlay - adjusted for better contrast -->
+        <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/95 via-black/80 to-black/60 dark:from-black dark:via-black/80 dark:to-transparent"></div>
+        
+        <!-- Subtle texture overlay -->
+        <div class="absolute inset-0 opacity-5 mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg%20viewBox%3D%270%200%20200%20200%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cfilter%20id%3D%27noise%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.65%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%23noise)%27%20opacity%3D%270.2%27%2F%3E%3C%2Fsvg%3E')]"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
+        <div class="max-w-4xl flex flex-col items-center md:items-start text-center md:text-left">
+            
+            <!-- Vintage Badge - Added for better visual hierarchy -->
+            <div class="inline-flex items-center gap-3 bg-black/30 backdrop-blur-md border border-red-600/30 px-4 py-2 rounded-full mb-8 shadow-lg">
+                
+            </div>
+            
+            <!-- Main Heading - Pure white for maximum contrast -->
+            <h1 class="text-5xl md:text-6xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-6 drop-shadow-2xl">
+                Preserving<br/>
+                <span class="text-red-500 dark:text-red-400 inline-block transform hover:skew-x-2 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">Automotive</span><br/>
+                History
+            </h1>
+            
+            <!-- Quote Text - Better contrast with white/gray -->
+            <p class="text-gray-200 dark:text-gray-300 text-base md:text-xl max-w-2xl leading-relaxed mb-10 font-light italic border-red-500 md:border-l-4 md:pl-6 border-l-0 drop-shadow-lg">
+                Specialized in concours-level restoration of classic and vintage automobiles. 
+                Where craftsmanship meets heritage.
+            </p>
+            
+            <!-- CTA Buttons - Enhanced visibility -->
+            <div class="flex flex-col sm:flex-row flex-wrap justify-center md:justify-start gap-5 w-full sm:w-auto">
+                <a href="#services" class="group relative w-full sm:w-auto">
+                    <button class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black py-4 px-10 rounded-lg transition-all uppercase tracking-widest text-xs shadow-[0_0_25px_rgba(220,38,38,0.4)] hover:shadow-[0_0_35px_rgba(220,38,38,0.6)] dark:shadow-red-600/30 dark:hover:shadow-red-600/50">
+                        Back to Service
+                    </button>
+                </a>
+                <a href="#booking" class="w-full sm:w-auto">
+                    <button class="w-full sm:w-auto border-2 border-white/30 hover:border-white text-white font-black py-4 px-10 rounded-lg hover:bg-white hover:text-black dark:hover:bg-white dark:hover:text-black transition-all uppercase tracking-widest text-xs backdrop-blur-sm bg-black/20 dark:bg-black/40">
+                        Book Now
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Stats - Improved contrast with better colors -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16 border-t border-white/20 dark:border-white/10 pt-10 w-full">
+                <div class="flex flex-col items-center md:items-start gap-1">
+                    <div class="text-4xl font-black text-white drop-shadow-lg">50<span class="text-red-500 dark:text-red-400">+</span></div>
+                    <div class="text-[10px] text-gray-300 dark:text-gray-400 uppercase tracking-[0.2em] font-bold">Years of Excellence</div>
+                </div>
+                <div class="flex flex-col items-center md:items-start gap-1">
+                    <div class="text-4xl font-black text-white drop-shadow-lg">1000<span class="text-red-500 dark:text-red-400">+</span></div>
+                    <div class="text-[10px] text-gray-300 dark:text-gray-400 uppercase tracking-[0.2em] font-bold">Cars Restored</div>
+                </div>
+                <div class="flex flex-col items-center md:items-start gap-1">
+                    <div class="text-4xl font-black text-white drop-shadow-lg">24<span class="text-red-500 dark:text-red-400">/7</span></div>
+                    <div class="text-[10px] text-gray-300 dark:text-gray-400 uppercase tracking-[0.2em] font-bold">Expert Support</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</section>
+
+<!-- TRANSFORMATION SECTION - BEFORE & AFTER RESTORATION -->
+<section class="py-20 bg-[#faf7f2] dark:bg-zinc-950 px-4 md:px-6 font-sans relative overflow-hidden transition-colors duration-500">
+    <!-- Subtle vintage texture overlay -->
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="relative z-10 container mx-auto max-w-7xl">
+        <!-- Section Header -->
+        <div class="text-center mb-12 md:mb-16 max-w-4xl mx-auto">
+            
+            
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-zinc-900 dark:text-white leading-none">
+                The <span class="text-[#b91c1c]">Transformation</span>
+            </h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-transparent via-[#b91c1c] to-transparent mx-auto mt-6"></div>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-6 text-sm md:text-base italic font-light max-w-2xl mx-auto">
+                Witness the journey from forgotten relics to restored masterpieces.
+            </p>
+        </div>
+
+        <!-- BEFORE SECTION - Original State -->
+        <div class="mb-16 md:mb-20">
+            <!-- Section Title with Vintage Badge -->
+            <div class="flex items-center gap-4 mb-8 md:mb-10">
+                <div class="flex items-center gap-3 bg-zinc-200 dark:bg-zinc-800 px-4 py-2 rounded-full border border-zinc-300 dark:border-zinc-700">
+                    <i class="fas fa-hourglass-start text-[#b91c1c] text-xs"></i>
+                    <span class="text-zinc-700 dark:text-zinc-300 font-black text-xs md:text-sm uppercase tracking-widest">Phase 01: Original State (Before)</span>
+                </div>
+                
+            </div>
+            
+            <!-- Before Grid - Responsive -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+                <!-- Before Card 1 - Mustang -->
+                <div class="group bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:shadow-xl transition-all duration-500">
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/home2-6.jpg" 
+                             alt="Classic Mustang before restoration" 
+                             class="w-full h-full object-cover grayscale sepia-[0.3] group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase border border-white/20">Found 2024</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                        <!-- Before Badge -->
+                        <div class="absolute top-3 right-3 bg-[#b91c1c]/90 text-white text-[8px] font-black px-2 py-1 rounded-full uppercase">Before</div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-base md:text-lg font-black text-zinc-400 dark:text-zinc-500 line-through">Mustang '65</h3>
+                            <span class="text-[10px] font-bold text-[#b91c1c]">Restoring</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-bold uppercase tracking-widest mb-3">Awaiting Restoration</p>
+                        
+                        <!-- Condition Tags -->
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Rust damage</span>
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Original V8</span>
+                        </div>
+                        
+                        <div class="text-[9px] md:text-[10px] text-zinc-500 dark:text-zinc-500 italic mb-4 border-l-2 border-[#b91c1c]/30 pl-3">
+                            "Interior needs full overhaul, engine seized"
+                        </div>
+                        
+                        <div class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-800 mb-4"></div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-[8px] md:text-[10px] font-bold text-zinc-500 uppercase">Status:</span>
+                            <span class="text-[8px] md:text-[10px] font-black text-[#b91c1c] uppercase flex items-center gap-1">
+                                <i class="fas fa-tools text-[8px]"></i> In Workshop
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Before Card 2 - Porsche -->
+                <div class="group bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:shadow-xl transition-all duration-500">
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/home2-7.jpg" 
+                             alt="Porsche 911 before restoration" 
+                             class="w-full h-full object-cover grayscale sepia-[0.3] group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase border border-white/20">Barn Find</div>
+                        <div class="absolute top-3 right-3 bg-[#b91c1c]/90 text-white text-[8px] font-black px-2 py-1 rounded-full uppercase">Before</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-base md:text-lg font-black text-zinc-400 dark:text-zinc-500 line-through">Porsche 911</h3>
+                            <span class="text-[10px] font-bold text-[#b91c1c]">1973</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-bold uppercase tracking-widest mb-3">Weathered Legacy</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Faded paint</span>
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Seized engine</span>
+                        </div>
+                        
+                        <div class="text-[9px] md:text-[10px] text-zinc-500 dark:text-zinc-500 italic mb-4 border-l-2 border-[#b91c1c]/30 pl-3">
+                            "Suspension requires complete replacement"
+                        </div>
+                        
+                        <div class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-800 mb-4"></div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-[8px] md:text-[10px] font-bold text-zinc-500 uppercase">Status:</span>
+                            <span class="text-[8px] md:text-[10px] font-black text-[#b91c1c] uppercase flex items-center gap-1">
+                                <i class="fas fa-clipboard-list text-[8px]"></i> Cataloging
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Before Card 3 - Jaguar (replacing placeholder) -->
+                <div class="group bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:shadow-xl transition-all duration-500">
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/home2-8.jpg" 
+                             alt="Jaguar E-Type before restoration" 
+                             class="w-full h-full object-cover grayscale sepia-[0.3] group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase border border-white/20">Project Car</div>
+                        <div class="absolute top-3 right-3 bg-[#b91c1c]/90 text-white text-[8px] font-black px-2 py-1 rounded-full uppercase">Before</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-base md:text-lg font-black text-zinc-400 dark:text-zinc-500 line-through">Jaguar E-Type</h3>
+                            <span class="text-[10px] font-bold text-[#b91c1c]">1967</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-bold uppercase tracking-widest mb-3">British Legend</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Body work</span>
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Chrome restore</span>
+                        </div>
+                        
+                        <div class="text-[9px] md:text-[10px] text-zinc-500 dark:text-zinc-500 italic mb-4 border-l-2 border-[#b91c1c]/30 pl-3">
+                            "Straight-6 engine needs rebuild, interior original"
+                        </div>
+                        
+                        <div class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-800 mb-4"></div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-[8px] md:text-[10px] font-bold text-zinc-500 uppercase">Status:</span>
+                            <span class="text-[8px] md:text-[10px] font-black text-[#b91c1c] uppercase flex items-center gap-1">
+                                <i class="fas fa-paint-roller text-[8px]"></i> Body work
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Before Card 4 - Mercedes (replacing placeholder) -->
+                <div class="group bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl border border-zinc-200 dark:border-zinc-800 overflow-hidden hover:shadow-xl transition-all duration-500">
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/home2-9.jpg" 
+                             alt="Mercedes 300SL before restoration" 
+                             class="w-full h-full object-cover grayscale sepia-[0.3] group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase border border-white/20">Rare Find</div>
+                        <div class="absolute top-3 right-3 bg-[#b91c1c]/90 text-white text-[8px] font-black px-2 py-1 rounded-full uppercase">Before</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-base md:text-lg font-black text-zinc-400 dark:text-zinc-500 line-through">Mercedes 300SL</h3>
+                            <span class="text-[10px] font-bold text-[#b91c1c]">1957</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-bold uppercase tracking-widest mb-3">German Masterpiece</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Rare parts</span>
+                            <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[8px] px-2 py-1 rounded-full">Original</span>
+                        </div>
+                        
+                        <div class="text-[9px] md:text-[10px] text-zinc-500 dark:text-zinc-500 italic mb-4 border-l-2 border-[#b91c1c]/30 pl-3">
+                            "Complete nut-and-bolt restoration planned"
+                        </div>
+                        
+                        <div class="w-full h-[1px] bg-zinc-200 dark:bg-zinc-800 mb-4"></div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-[8px] md:text-[10px] font-bold text-zinc-500 uppercase">Status:</span>
+                            <span class="text-[8px] md:text-[10px] font-black text-[#b91c1c] uppercase flex items-center gap-1">
+                                <i class="fas fa-search text-[8px]"></i> Assessment
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+
+        <!-- AFTER SECTION - Fully Restored -->
+        <div>
+            <!-- Section Title with Modern Badge -->
+            <div class="flex items-center gap-4 mb-8 md:mb-10">
+                
+                <div class="flex items-center gap-3 bg-[#b91c1c] px-5 py-2 rounded-full shadow-lg shadow-red-600/20">
+                    <i class="fas fa-crown text-white text-xs"></i>
+                    <span class="text-white font-black text-xs md:text-sm uppercase tracking-widest">Phase 02: Fully Restored (After)</span>
+                </div>
+                
+            </div>
+            
+            <!-- After Grid - Responsive -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+                <!-- After Card 1 - Mustang Restored -->
+                <div class="group relative bg-gradient-to-br from-zinc-900 to-black dark:from-zinc-950 dark:to-black text-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-[#b91c1c]/30 hover:border-[#b91c1c] transition-all duration-500">
+                    <!-- Modern geometric accent -->
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-[#b91c1c]/10 rounded-bl-full"></div>
+                    
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/services1.jpg" 
+                             alt="Restored Mustang" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        
+                        <!-- Showroom Badge -->
+                        <div class="absolute top-3 right-3 bg-[#b91c1c] text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase shadow-lg">
+                            Showroom Ready
+                        </div>
+                        
+                        <!-- After Badge -->
+                        <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
+                            <span class="text-white text-[8px] md:text-[9px] font-black uppercase">Restored 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg md:text-xl font-black uppercase">Mustang '65 GT</h3>
+                            <span class="text-[#b91c1c] text-xs font-black">Elite</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-3">Elite Restoration</p>
+                        
+                        <!-- Specs Grid -->
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">Power</span>
+                                <span class="text-xs md:text-sm font-black text-white">450 HP</span>
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">Engine</span>
+                                <span class="text-xs md:text-sm font-black text-white">V8 Blue</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Pricing -->
+                        <div class="flex justify-between items-center mb-4 border-t border-white/10 pt-3">
+                            <span class="text-[8px] md:text-[10px] text-zinc-400 uppercase">Daily Rent</span>
+                            <div>
+                                <span class="text-sm md:text-lg font-black text-white">₹3,499</span>
+                                <span class="text-[8px] text-zinc-500 ml-1">/day</span>
+                            </div>
+                        </div>
+                        
+                        <a href="book.html" class="block">
+                            <button class="w-full bg-[#b91c1c] hover:bg-[#a11717] text-white py-2.5 md:py-3 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2">
+                                <span>Book Now</span>
+                                <i class="fas fa-arrow-right text-[8px]"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- After Card 2 - Porsche Restored -->
+                <div class="group relative bg-gradient-to-br from-zinc-900 to-black dark:from-zinc-950 dark:to-black text-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-[#b91c1c]/30 hover:border-[#b91c1c] transition-all duration-500">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-[#b91c1c]/10 rounded-bl-full"></div>
+                    
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/services2.jpg" 
+                             alt="Restored Porsche" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        
+                        <div class="absolute top-3 right-3 bg-[#b91c1c] text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase shadow-lg">
+                            Concours Level
+                        </div>
+                        
+                        <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
+                            <span class="text-white text-[8px] md:text-[9px] font-black uppercase">Restored 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg md:text-xl font-black uppercase">Porsche 911 S</h3>
+                            <span class="text-[#b91c1c] text-xs font-black">Master</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-3">Master Restored</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">0-100</span>
+                                <span class="text-xs md:text-sm font-black text-white">4.8s</span>
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">Grade</span>
+                                <span class="text-xs md:text-sm font-black text-white">Elite+</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4 border-t border-white/10 pt-3">
+                            <span class="text-[8px] md:text-[10px] text-zinc-400 uppercase">Daily Rent</span>
+                            <div>
+                                <span class="text-sm md:text-lg font-black text-white">₹4,999</span>
+                                <span class="text-[8px] text-zinc-500 ml-1">/day</span>
+                            </div>
+                        </div>
+                        
+                        <a href="book.html" class="block">
+                            <button class="w-full bg-[#b91c1c] hover:bg-[#a11717] text-white py-2.5 md:py-3 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2">
+                                <span>Book Now</span>
+                                <i class="fas fa-arrow-right text-[8px]"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- After Card 3 - Jaguar Restored -->
+                <div class="group relative bg-gradient-to-br from-zinc-900 to-black dark:from-zinc-950 dark:to-black text-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-[#b91c1c]/30 hover:border-[#b91c1c] transition-all duration-500">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-[#b91c1c]/10 rounded-bl-full"></div>
+                    
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/services3.jpg" 
+                             alt="Restored Jaguar" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        
+                        <div class="absolute top-3 right-3 bg-[#b91c1c] text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase shadow-lg">
+                            Premium
+                        </div>
+                        
+                        <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
+                            <span class="text-white text-[8px] md:text-[9px] font-black uppercase">Restored 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg md:text-xl font-black uppercase">Jaguar E-Type</h3>
+                            <span class="text-[#b91c1c] text-xs font-black">Icon</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-3">British Legend</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">Engine</span>
+                                <span class="text-xs md:text-sm font-black text-white">4.2L</span>
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">Style</span>
+                                <span class="text-xs md:text-sm font-black text-white">Series 1</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4 border-t border-white/10 pt-3">
+                            <span class="text-[8px] md:text-[10px] text-zinc-400 uppercase">Daily Rent</span>
+                            <div>
+                                <span class="text-sm md:text-lg font-black text-white">₹5,499</span>
+                                <span class="text-[8px] text-zinc-500 ml-1">/day</span>
+                            </div>
+                        </div>
+                        
+                        <a href="book.html" class="block">
+                            <button class="w-full bg-[#b91c1c] hover:bg-[#a11717] text-white py-2.5 md:py-3 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2">
+                                <span>Book Now</span>
+                                <i class="fas fa-arrow-right text-[8px]"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- After Card 4 - Mercedes Restored -->
+                <div class="group relative bg-gradient-to-br from-zinc-900 to-black dark:from-zinc-950 dark:to-black text-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-[#b91c1c]/30 hover:border-[#b91c1c] transition-all duration-500">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-[#b91c1c]/10 rounded-bl-full"></div>
+                    
+                    <div class="relative h-40 md:h-48 overflow-hidden">
+                        <img src="img/services4.jpg" 
+                             alt="Restored Mercedes" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        
+                        <div class="absolute top-3 right-3 bg-[#b91c1c] text-white text-[8px] md:text-[9px] font-black px-3 py-1.5 rounded-full uppercase shadow-lg">
+                            Royal Class
+                        </div>
+                        
+                        <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20">
+                            <span class="text-white text-[8px] md:text-[9px] font-black uppercase">Restored 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 md:p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg md:text-xl font-black uppercase">Benz S-Class</h3>
+                            <span class="text-[#b91c1c] text-xs font-black">Royal</span>
+                        </div>
+                        
+                        <p class="text-[#b91c1c] text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-3">Ultimate Comfort</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">Luxury</span>
+                                <span class="text-xs md:text-sm font-black text-white">VIP</span>
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-white/10">
+                                <span class="text-[7px] md:text-[8px] uppercase text-zinc-400 block">Class</span>
+                                <span class="text-xs md:text-sm font-black text-white">Maybach</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4 border-t border-white/10 pt-3">
+                            <span class="text-[8px] md:text-[10px] text-zinc-400 uppercase">Daily Rent</span>
+                            <div>
+                                <span class="text-sm md:text-lg font-black text-white">₹11,499</span>
+                                <span class="text-[8px] text-zinc-500 ml-1">/day</span>
+                            </div>
+                        </div>
+                        
+                        <a href="book.html" class="block">
+                            <button class="w-full bg-[#b91c1c] hover:bg-[#a11717] text-white py-2.5 md:py-3 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2">
+                                <span>Book Now</span>
+                                <i class="fas fa-arrow-right text-[8px]"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- MAINTENANCE SECTION - VINTAGE THEME - FULL WIDTH -->
+<section class="py-16 md:py-20 lg:py-24 px-4 md:px-6 w-full bg-white dark:bg-zinc-950 relative overflow-hidden">
+    <!-- Subtle vintage texture overlay -->
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto">
+        <div class="flex flex-col-reverse lg:flex-row items-center gap-8 md:gap-12 lg:gap-16">
+            <!-- Left Content -->
+            <div class="w-full lg:w-1/2">
+                <!-- Vintage badge -->
+                
+                
+                <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black uppercase tracking-tighter mb-6 text-zinc-900 dark:text-white leading-tight">
+                    Maintained to <span class="text-[#b91c1c] dark:text-[#EA580C]">Perfection</span>
+                </h2>
+                
+                <!-- Vintage divider -->
+                <div class="w-20 h-1 bg-gradient-to-r from-[#b91c1c] to-transparent mb-8"></div>
+                
+                <p class="text-zinc-600 dark:text-zinc-400 mb-8 md:mb-10 leading-relaxed text-sm md:text-base italic border-l-2 border-[#b91c1c]/30 pl-4">
+                    "We follow strict maintenance schedules to ensure every classic is road-ready. Our master craftsmen conduct routine inspections to guarantee authenticity and reliability."
+                </p>
+                
+                <!-- Maintenance Features with Vintage Style -->
+                <ul class="space-y-3 md:space-y-4">
+                    <li class="flex items-center gap-3 md:gap-4 bg-white dark:bg-zinc-900 p-3 md:p-4 rounded-xl md:rounded-2xl border border-[#b91c1c]/10 hover:border-[#b91c1c]/30 shadow-md hover:shadow-xl transition-all duration-300 group">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-[#b91c1c]/10 rounded-lg flex items-center justify-center group-hover:bg-[#b91c1c]/20 transition-colors">
+                            <i class="fas fa-tools text-[#b91c1c] dark:text-[#EA580C] text-xs md:text-sm"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs md:text-sm font-black uppercase text-zinc-900 dark:text-white">Regular professional servicing</span>
+                            <p class="text-[10px] md:text-xs text-zinc-500 dark:text-zinc-500">Factory-trained technicians, period-correct methods</p>
+                        </div>
+                    </li>
+                    
+                    <li class="flex items-center gap-3 md:gap-4 bg-white dark:bg-zinc-900 p-3 md:p-4 rounded-xl md:rounded-2xl border border-[#b91c1c]/10 hover:border-[#b91c1c]/30 shadow-md hover:shadow-xl transition-all duration-300 group">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-[#b91c1c]/10 rounded-lg flex items-center justify-center group-hover:bg-[#b91c1c]/20 transition-colors">
+                            <i class="fas fa-pump-medical text-[#b91c1c] dark:text-[#EA580C] text-xs md:text-sm"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs md:text-sm font-black uppercase text-zinc-900 dark:text-white">Sanitized before every delivery</span>
+                            <p class="text-[10px] md:text-xs text-zinc-500 dark:text-zinc-500">Vintage care with modern hygiene standards</p>
+                        </div>
+                    </li>
+                    
+                    <li class="flex items-center gap-3 md:gap-4 bg-white dark:bg-zinc-900 p-3 md:p-4 rounded-xl md:rounded-2xl border border-[#b91c1c]/10 hover:border-[#b91c1c]/30 shadow-md hover:shadow-xl transition-all duration-300 group">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-[#b91c1c]/10 rounded-lg flex items-center justify-center group-hover:bg-[#b91c1c]/20 transition-colors">
+                            <i class="fas fa-shield-alt text-[#b91c1c] dark:text-[#EA580C] text-xs md:text-sm"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs md:text-sm font-black uppercase text-zinc-900 dark:text-white">Fully insured & 24/7 roadside support</span>
+                            <p class="text-[10px] md:text-xs text-zinc-500 dark:text-zinc-500">Classic car specialist assistance anytime</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <!-- Vintage Stats -->
+                <div class="grid grid-cols-3 gap-3 md:gap-4 mt-8 md:mt-10">
+                    <div class="text-center p-3 bg-white dark:bg-zinc-900 rounded-xl border border-[#b91c1c]/10">
+                        <div class="text-lg md:text-2xl font-black text-[#b91c1c]">50+</div>
+                        <div class="text-[8px] md:text-[10px] text-zinc-500 uppercase tracking-wider">Years exp</div>
+                    </div>
+                    <div class="text-center p-3 bg-white dark:bg-zinc-900 rounded-xl border border-[#b91c1c]/10">
+                        <div class="text-lg md:text-2xl font-black text-[#b91c1c]">1000+</div>
+                        <div class="text-[8px] md:text-[10px] text-zinc-500 uppercase tracking-wider">Cars serviced</div>
+                    </div>
+                    <div class="text-center p-3 bg-white dark:bg-zinc-900 rounded-xl border border-[#b91c1c]/10">
+                        <div class="text-lg md:text-2xl font-black text-[#b91c1c]">24/7</div>
+                        <div class="text-[8px] md:text-[10px] text-zinc-500 uppercase tracking-wider">Support</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right - Image with Vintage Frame -->
+            <div class="w-full lg:w-1/2 relative group">
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="img/home2-10.jpg" 
+                         alt="Classic car maintenance" 
+                         class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700">
+                    
+                    <!-- Vintage overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    
+                    <!-- Vintage corner accents -->
+                    <div class="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-white/60 rounded-tl-2xl"></div>
+                    <div class="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-white/60 rounded-tr-2xl"></div>
+                    <div class="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-white/60 rounded-bl-2xl"></div>
+                    <div class="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-white/60 rounded-br-2xl"></div>
+                    
+                    <!-- Badge -->
+                    <div class="absolute bottom-4 left-4 bg-[#b91c1c]/90 backdrop-blur-sm text-white px-4 py-2 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-widest">
+                        <i class="fas fa-certificate mr-1"></i> Certified Restoration
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA SECTION - VINTAGE STYLE - FULL WIDTH -->
+<section class="py-20 md:py-24 lg:py-28 w-full bg-black dark:bg-black text-white text-center px-4 md:px-6 relative overflow-hidden">
+    <!-- Vintage texture overlay -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <!-- Background glow with vintage red -->
+    <div class="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-[#b91c1c]/20 rounded-full blur-[100px] -mr-32 -mt-32"></div>
+    <div class="absolute bottom-0 left-0 w-64 md:w-96 h-64 md:h-96 bg-[#b91c1c]/10 rounded-full blur-[100px] -ml-32 -mb-32"></div>
+    
+    <!-- Vintage car silhouette -->
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+        <i class="fas fa-car-side absolute bottom-10 left-10 text-9xl text-white/10"></i>
+        <i class="fas fa-car-side absolute top-10 right-10 text-9xl text-white/10 transform rotate-180"></i>
+    </div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto">
+        <!-- Vintage badge -->
+        <div class="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md border border-[#b91c1c]/30 px-4 py-2 rounded-full mb-8">
+            <span class="h-2 w-2 rounded-full bg-[#b91c1c] animate-pulse"></span>
+            <span class="text-white/90 text-[10px] md:text-xs font-black uppercase tracking-[0.3em]">Drive History • Since 1975</span>
+        </div>
+        
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter mb-6 text-white leading-tight">
+            Find Your <span class="text-[#b91c1c] drop-shadow-[0_0_15px_rgba(185,28,28,0.5)]">Perfect</span> Classic
+        </h2>
+        
+        <!-- Vintage divider -->
+        <div class="flex items-center justify-center gap-4 mb-8">
+            <div class="w-12 h-[2px] bg-[#b91c1c]/30"></div>
+            <i class="fas fa-car text-[#b91c1c] text-sm opacity-70"></i>
+            <div class="w-12 h-[2px] bg-[#b91c1c]/30"></div>
+        </div>
+        
+        <p class="text-gray-400 dark:text-gray-500 mb-10 text-sm md:text-base lg:text-lg max-w-2xl mx-auto italic">
+            "Browse our collection of restored classics, choose your favorite, and book your drive today for an authentic vintage experience."
+        </p>
+        
+    
+        
+        <a href="book.html" class="inline-block">
+            <button class="group relative bg-[#b91c1c] hover:bg-[#a11717] text-white font-black py-4 md:py-5 px-8 md:px-12 rounded-xl md:rounded-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all uppercase tracking-[0.2em] text-xs md:text-sm overflow-hidden">
+                <!-- Button shine effect -->
+                <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <span class="relative z-10 flex items-center gap-2">
+                    <i class="fas fa-calendar-check"></i>
+                    Book Your Classic Drive
+                    <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </span>
+            </button>
+        </a>
+        
+        
+    </div>
+</section>
+
+
+
+ <!-- FOOTER - Fully Responsive with Mobile & Tablet Optimization -->
+    <footer class="bg-gray-900 text-white pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main Footer Grid - Responsive breakpoints -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 mb-10 sm:mb-12 md:mb-16">
+                
+                <!-- Brand Section - Full width on mobile -->
+                <div class="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1">
+                    <!-- Logo - Red with Wrench Icon -->
+                <a href="index.html" class="logo">
+                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    <span class="font-black text-lg text-primary">Groww</span>
+                    <span class="font-black text-lg text-gray-400 dark:text-white">Vintage</span>
+                </a>
+                    <p class="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 max-w-xs mx-auto sm:mx-0">
+                        India's premier vintage car restoration specialists since 1985. Bringing classics back to life.
+                    </p>
+                    
+                    <!-- Social Icons - Responsive sizing -->
+                    <div class="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <a href="https://facebook.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-facebook-f text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-instagram text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-twitter text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-youtube text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-linkedin-in text-sm sm:text-base text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links - Centered on mobile -->
+                <div class="text-center sm:text-left">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Quick Links
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-sm sm:text-base mt-4 sm:mt-6">
+                        <li><a href="index.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Services</a></li>
+                        <li><a href="gallery.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Gallery</a></li>
+                        <li><a href="price.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Price</a></li>
+                        <li class="sm:hidden"><a href="contact.html" class="hover:text-white hover:pl-2 inline-block transition-all duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services - Centered on mobile -->
+                <div class="text-center sm:text-left">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Services
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-sm sm:text-base mt-4 sm:mt-6">
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Body Restoration</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Engine Rebuilding</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Interior Refurb</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Custom Paint</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Parts Sourcing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info - Better mobile layout -->
+                <div class="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Workshop
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    
+                    <!-- Contact Cards - Responsive grid -->
+                    <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-1 gap-3 mt-4 sm:mt-6">
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="map-pin" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <span class="truncate">Indiranagar, Bangalore</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="phone" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <a href="tel:+919876543210" class="hover:text-white transition truncate">+11 11122334410</a>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="mail" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <a href="mailto:hello@gowwvintage.com" class="hover:text-white transition truncate">hello@gowwvintage.com</a>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="clock" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <span>Mon–Sat · 9AM – 7PM</span>
+                        </div>
+                    </div>
+
+                    <!-- Map Link - Mobile only -->
+                    <a href="#" class="mt-4 sm:hidden inline-flex items-center gap-2 text-red-400 text-sm">
+                        <i data-lucide="navigation" class="w-4 h-4"></i>
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bottom Footer - Fully responsive -->
+            <div class="pt-6 sm:pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center 
+                        text-gray-400 text-xs sm:text-sm gap-4 sm:gap-0">
+                
+                <!-- Copyright - Mobile optimized -->
+                <div class="text-center sm:text-left order-2 sm:order-1">
+                    <span class="block sm:inline">© 2025 Goww Car Vintage.</span>
+                    <span class="hidden sm:inline mx-2">|</span>
+                    <span class="block sm:inline mt-1 sm:mt-0">All rights reserved.</span>
+                </div>
+
+                <!-- Footer Links - Better mobile touch targets -->
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6 order-1 sm:order-2">
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Sitemap</a>
+                </div>
+
+                <!-- Payment Methods / Trust Badge - Optional for mobile -->
+                <div class="flex items-center gap-2 mt-4 sm:mt-0 order-3 text-gray-500">
+                    <i class="fas fa-shield-alt text-xs sm:text-sm"></i>
+                    <span class="text-xs">Secure & Trusted</span>
+                </div>
+            </div>
+
+            <!-- Mobile App Promo - Only visible on mobile -->
+            <div class="mt-6 sm:hidden flex justify-center gap-4 pt-4 border-t border-gray-800">
+                <a href="#" class="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-lg">
+                    <i class="fab fa-google-play text-red-400"></i>
+                    <span class="text-xs">Get our App</span>
+                </a>
+                <a href="#" class="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-lg">
+                    <i class="fab fa-apple text-red-400"></i>
+                    <span class="text-xs">App Store</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+</body>
+</html>

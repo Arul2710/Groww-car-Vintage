@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>GrowwCar Vintage | Classic Fleet Admin</title>
+    <link rel="icon" type="imags/jpg" href="img/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#b91c1c', // Vintage red
+                        secondary: '#854d0e' // Vintage gold
+                    },
+                    screens: {
+                        'xs': '475px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                    }
+                } 
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            overflow-x: hidden;
+            width: 100%;
+        }
+        
+        .vintage-title {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Logo Style - Consistent everywhere */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b91c1c;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+        
+        .logo-text .brand {
+            color: #b91c1c;
+        }
+        
+        .logo-text .brand-light {
+            color: #9ca3af;
+        }
+        
+        .dark .logo-text .brand-light {
+            color: #ffffff;
+        }
+
+        .sidebar-active { 
+            background: rgba(185, 28, 28, 0.1); 
+            border-left: 4px solid #b91c1c; 
+            color: #b91c1c !important; 
+            font-weight: 700; 
+        }
+        
+        [dir="rtl"] .sidebar-active { 
+            border-left: 0; 
+            border-right: 4px solid #b91c1c; 
+        }
+        
+        .custom-shadow { 
+            box-shadow: 0 10px 25px -5px rgba(185, 28, 28, 0.1); 
+        }
+        
+        .dark .custom-shadow { 
+            box-shadow: 0 10px 25px -5px rgba(185, 28, 28, 0.2); 
+        }
+        
+        .vintage-card {
+            border: 1px solid rgba(185, 28, 28, 0.2);
+            background: linear-gradient(135deg, rgba(185,28,28,0.02) 0%, rgba(255,255,255,1) 100%);
+        }
+        
+        .dark .vintage-card {
+            background: linear-gradient(135deg, rgba(185,28,28,0.05) 0%, rgba(30,41,59,1) 100%);
+        }
+        
+        .page-node { 
+            display: none; 
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        .page-node.active { 
+            display: block; 
+            animation: fadeInUp 0.4s ease forwards;
+        }
+        
+        @keyframes fadeInUp { 
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            #sidebar {
+                width: 280px;
+                box-shadow: 0 0 30px rgba(185,28,28,0.15);
+            }
+            
+            .dark #sidebar {
+                box-shadow: 0 0 30px rgba(185,28,28,0.3);
+            }
+        }
+        
+        button, a {
+            min-height: 44px;
+            min-width: 44px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 640px) {
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        .notification-item:hover {
+            background-color: rgba(185, 28, 28, 0.05);
+        }
+        
+        /* Vintage texture */
+        .vintage-texture {
+            background-image: radial-gradient(circle at 1px 1px, #b91c1c 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 dark:bg-[#0F172A] text-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Mobile Overlay -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300"></div>
+
+    <div class="flex min-h-screen relative w-full overflow-x-hidden">
+        <!-- Sidebar - Vintage Theme -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-[280px] bg-white dark:bg-[#1E293B] text-gray-500 dark:text-gray-400 transition-all duration-300 ease-in-out lg:translate-x-0 -translate-x-full border-r border-amber-200 dark:border-gray-700 overflow-y-auto">
+            <div class="p-5 h-full flex flex-col">
+                
+                <!-- Logo - Consistent Style -->
+                <div class="flex items-center justify-between mb-8">
+                    <a href="index.html" class="logo">
+                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    <span class="font-black text-lg text-primary">Groww</span>
+                    <span class="font-black text-lg text-gray-500 dark:text-white">Vintage</span>
+                </a>
+                    
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-amber-100 dark:hover:bg-gray-700 rounded-lg">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Vintage Badge -->
+                <div class="mb-4 p-2 bg-amber-100 dark:bg-amber-900/20 rounded-lg border border-primary/20 text-center">
+                    <span class="text-[8px] font-black text-primary uppercase tracking-widest">Since 1975 • Heritage Fleet</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="flex-1 space-y-1 overflow-y-auto">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-3 ml-2">
+                        <i data-lucide="layout-grid" class="w-3 h-3 inline mr-1"></i>
+                        MAIN MENU
+                    </p>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('stats')" id="btn-stats" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl sidebar-active transition-all hover:bg-amber-50 dark:hover:bg-white/5 group">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:scale-110 transition-transform text-primary"></i>
+                        <span class="font-medium">Classic Dashboard</span>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('fleet')" id="btn-fleet" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="car" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Vintage Fleet</span>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('bookings')" id="btn-bookings" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="calendar-check" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Classic Bookings</span>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="showPage('restorations')" id="btn-restorations" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                        <i data-lucide="wrench" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium">Restorations</span>
+                        <span class="ml-auto bg-primary text-white text-[8px] font-black px-2 py-1 rounded-full">4</span>
+                    </a>
+
+                    <!-- SETTINGS SECTION -->
+                    <div class="mt-6 pt-6 border-t border-amber-200 dark:border-gray-700">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-3 ml-2">
+                            <i data-lucide="settings" class="w-3 h-3 inline mr-1"></i>
+                            SETTINGS
+                        </p>
+                        
+                        <a href="javascript:void(0)" onclick="showPage('notifications')" id="btn-notifications" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                            <i data-lucide="bell" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium">Notifications</span>
+                            <span class="ml-auto bg-primary text-white text-[8px] font-black px-2 py-1 rounded-full">3</span>
+                        </a>
+                        
+                        <a href="javascript:void(0)" onclick="showPage('security')" id="btn-security" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-amber-50 dark:hover:bg-white/5 transition-all group">
+                            <i data-lucide="shield" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="font-medium">Security</span>
+                        </a>
+                    </div>
+                </nav>
+
+                <!-- Bottom Controls -->
+                <div class="pt-6 mt-6 border-t border-amber-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between bg-amber-50 dark:bg-gray-800/50 p-2 rounded-2xl">
+                        <button onclick="toggleDirection()" class="p-2.5 hover:bg-white dark:hover:bg-gray-700 rounded-xl shadow-sm transition-all text-gray-400 hover:text-primary flex items-center gap-1">
+                            <i class="fa-solid fa-left-right text-xs"></i>
+                        </button>
+                        
+                        <button onclick="toggleDarkMode()" class="p-2.5 bg-white dark:bg-gray-700 rounded-xl text-primary shadow-sm hover:scale-110 transition-all">
+                            <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+                        </button>
+                        
+                        <a href="login.html">
+                            <button class="p-2.5 bg-primary/10 rounded-xl text-primary hover:scale-110 transition-all">
+                                <i data-lucide="log-out" class="w-4 h-4"></i>
+                            </button>
+                        </a>
+                    </div>
+                    
+                    <!-- Admin Profile - Vintage Style -->
+                    <div class="mt-4 p-3 bg-gradient-to-r from-primary/5 to-transparent rounded-xl border border-primary/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-black vintage-title">
+                                JD
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm">James Donovan</p>
+                                <p class="text-[9px] text-primary uppercase font-black tracking-widest">Master Restorer</p>
+                                <p class="text-[7px] text-gray-500">james.d@growwcar.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-[280px] p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-300 w-full max-w-full overflow-x-hidden">
+            
+            <!-- Header -->
+            <header class="flex items-center justify-between mb-6 sm:mb-8">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2.5 bg-white dark:bg-[#1E293B] rounded-xl custom-shadow border border-amber-200 dark:border-gray-700">
+                            <i id="menuIcon" data-lucide="menu" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-white"></i>
+                        </button>
+                        <div>
+                            <h1 id="pageTitle" class="vintage-title text-xl sm:text-2xl font-black tracking-tight uppercase">CLASSIC DASHBOARD</h1>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mt-0.5">
+                                <span class="text-primary font-black">GrowwCar Vintage</span> · Heritage Fleet Management
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="flex items-center gap-2">
+                    <div class="hidden sm:flex items-center gap-2 bg-white dark:bg-[#1E293B] px-4 py-2 rounded-xl custom-shadow">
+                        <i data-lucide="clock" class="w-4 h-4 text-primary"></i>
+                        <span class="text-xs font-medium" id="liveTime">10:30 AM</span>
+                    </div>
+                    <div class="relative">
+                        <button onclick="showPage('notifications')" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center relative">
+                            <i data-lucide="bell" class="w-5 h-5 text-primary"></i>
+                            <span class="absolute -top-1 -right-1 bg-primary text-white text-[8px] font-black px-1.5 py-0.5 rounded-full">3</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PAGES - VINTAGE CAR THEMED -->
+            <div id="mainDisplay" class="space-y-6">
+                
+                <!-- === DASHBOARD PAGE - VINTAGE CAR STATS === -->
+                <div id="page-stats" class="page-node active">
+                    <!-- Stats Cards - Vintage Car Data -->
+                    <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                        <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-amber-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest">TOTAL FLEET</p>
+                                <span class="bg-primary/10 text-primary text-[8px] sm:text-[9px] font-black px-2 py-1 rounded-full">+8 this year</span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white vintage-title">65</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="car" class="w-3 h-3 text-primary"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">25 vintage • 40 modern</p>
+                            </div>
+                        </div>
+                        
+                        <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                            <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest mb-2">RESTORATIONS</p>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white vintage-title">12</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="wrench" class="w-3 h-3 text-primary"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">4 in progress</p>
+                            </div>
+                        </div>
+                        
+                        <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                            <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest mb-2">ACTIVE RENTALS</p>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white vintage-title">23</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="calendar-check" class="w-3 h-3 text-green-600"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">8 returning today</p>
+                            </div>
+                        </div>
+                        
+                        <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                            <p class="text-[9px] sm:text-[10px] font-black text-primary uppercase tracking-widest mb-2">HERITAGE YEARS</p>
+                            <h3 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white vintage-title">50+</h3>
+                            <div class="mt-2 flex items-center gap-2">
+                                <i data-lucide="clock" class="w-3 h-3 text-primary"></i>
+                                <p class="text-[9px] sm:text-[10px] text-gray-500">Since 1975</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts - Vintage Theme -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="lg:col-span-2 vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="vintage-title text-xs sm:text-sm font-black uppercase tracking-wider">RENTAL TREND 2024</h4>
+                                <div class="flex gap-2">
+                                    <span class="px-2 py-1 bg-primary/10 text-primary rounded-lg text-[8px] sm:text-[9px] font-black">vintage</span>
+                                </div>
+                            </div>
+                            <div class="h-[200px] sm:h-[250px]">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                            <h4 class="vintage-title text-xs sm:text-sm font-black uppercase tracking-wider mb-4">FLEET COMPOSITION</h4>
+                            <div class="h-[200px] sm:h-[250px] flex items-center justify-center">
+                                <canvas id="trafficChart"></canvas>
+                            </div>
+                            <div class="mt-4 grid grid-cols-2 gap-2">
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-primary rounded-full"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium">Vintage (38%)</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-amber-600 rounded-full"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium">Modern (62%)</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium">Restored (45%)</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium">Original (55%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity - Vintage Cars -->
+                    <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="vintage-title text-xs sm:text-sm font-black uppercase tracking-wider">RECENT FLEET ACTIVITY</h4>
+                            <button class="text-primary text-[9px] sm:text-[10px] font-black uppercase hover:underline">
+                                View All
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs sm:text-sm font-bold">1965 Mustang restored</p>
+                                        <p class="text-[8px] sm:text-[9px] text-gray-400">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] sm:text-[10px] font-black text-primary">#M-1965</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                        <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs sm:text-sm font-bold">Porsche 911 booked</p>
+                                        <p class="text-[8px] sm:text-[9px] text-gray-400">3 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] sm:text-[10px] font-black">James Wilson</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-amber-50 dark:bg-gray-800/50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                                        <i data-lucide="fuel" class="w-4 h-4 text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs sm:text-sm font-bold">Jaguar E-Type serviced</p>
+                                        <p class="text-[8px] sm:text-[9px] text-gray-400">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] sm:text-[10px] font-black text-green-600">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === FLEET PAGE - VINTAGE COLLECTION === -->
+                <div id="page-fleet" class="page-node">
+                    <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+                            <div>
+                                <h3 class="vintage-title text-lg sm:text-xl font-black uppercase">VINTAGE FLEET</h3>
+                                <p class="text-[9px] sm:text-[10px] text-primary mt-1">25 classic cars • 8 in restoration</p>
+                            </div>
+                            <button class="w-full sm:w-auto bg-primary text-white text-[10px] sm:text-[11px] font-black px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                Add Classic
+                            </button>
+                        </div>
+                        
+                        <!-- Fleet Categories -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                            <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-gray-800 dark:to-gray-900 p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] text-center border border-primary/20 hover:scale-[1.02] transition-transform">
+                                <div class="w-14 h-14 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="car" class="text-primary w-7 h-7"></i>
+                                </div>
+                                <p class="text-sm sm:text-base font-black uppercase">AMERICAN</p>
+                                <p class="text-[10px] sm:text-[11px] text-primary mt-2 uppercase font-black">8 Models</p>
+                                <p class="text-[8px] text-gray-500 mt-1">Mustang, Corvette, Cadillac</p>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-gray-800 dark:to-gray-900 p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] text-center border border-primary/20 hover:scale-[1.02] transition-transform">
+                                <div class="w-14 h-14 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="car" class="text-primary w-7 h-7"></i>
+                                </div>
+                                <p class="text-sm sm:text-base font-black uppercase">EUROPEAN</p>
+                                <p class="text-[10px] sm:text-[11px] text-primary mt-2 uppercase font-black">10 Models</p>
+                                <p class="text-[8px] text-gray-500 mt-1">Porsche, Jaguar, Mercedes</p>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-gray-800 dark:to-gray-900 p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] text-center border border-primary/20 hover:scale-[1.02] transition-transform">
+                                <div class="w-14 h-14 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="car" class="text-primary w-7 h-7"></i>
+                                </div>
+                                <p class="text-sm sm:text-base font-black uppercase">BRITISH</p>
+                                <p class="text-[10px] sm:text-[11px] text-primary mt-2 uppercase font-black">7 Models</p>
+                                <p class="text-[8px] text-gray-500 mt-1">Jaguar, Aston Martin, MG</p>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-gray-800 dark:to-gray-900 p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] text-center border border-primary/20 hover:scale-[1.02] transition-transform">
+                                <div class="w-14 h-14 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="car" class="text-primary w-7 h-7"></i>
+                                </div>
+                                <p class="text-sm sm:text-base font-black uppercase">MODERN</p>
+                                <p class="text-[10px] sm:text-[11px] text-primary mt-2 uppercase font-black">40 Models</p>
+                                <p class="text-[8px] text-gray-500 mt-1">BMW, Tesla, Mercedes</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Featured Classics -->
+                        <div class="mt-8">
+                            <h4 class="vintage-title text-sm font-black uppercase mb-4">Featured Classics</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="flex items-center gap-4 p-4 bg-amber-50 dark:bg-gray-800 rounded-xl">
+                                    <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop" class="w-20 h-20 object-cover rounded-lg">
+                                    <div>
+                                        <h5 class="font-black">Ford Mustang '65</h5>
+                                        <p class="text-[10px] text-primary">GT • V8 • 289ci</p>
+                                        <p class="text-[8px] text-gray-500 mt-1">Restored 2024 • Concours level</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 p-4 bg-amber-50 dark:bg-gray-800 rounded-xl">
+                                    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2070&auto=format&fit=crop" class="w-20 h-20 object-cover rounded-lg">
+                                    <div>
+                                        <h5 class="font-black">Porsche 911 '73</h5>
+                                        <p class="text-[10px] text-primary">Flat-6 • 2.4L • Manual</p>
+                                        <p class="text-[8px] text-gray-500 mt-1">Original condition • 45k miles</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === BOOKINGS PAGE - CLASSIC CAR RENTALS === -->
+                <div id="page-bookings" class="page-node">
+                    <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 md:p-10 rounded-2xl sm:rounded-[2.5rem] custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+                            <div>
+                                <h3 class="vintage-title text-lg sm:text-xl font-black uppercase">CLASSIC BOOKINGS</h3>
+                                <p class="text-[9px] sm:text-[10px] text-primary mt-1">Today's rentals · 12 active</p>
+                            </div>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <button class="flex-1 sm:flex-none bg-primary/10 text-primary text-[9px] sm:text-[10px] font-black px-4 py-2.5 rounded-xl">
+                                    <i data-lucide="filter" class="w-3 h-3 inline mr-1"></i>
+                                    Filter
+                                </button>
+                                <button class="flex-1 sm:flex-none bg-primary text-white text-[9px] sm:text-[10px] font-black px-4 py-2.5 rounded-xl">
+                                    <i data-lucide="download" class="w-3 h-3 inline mr-1"></i>
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Bookings Table - Classic Cars -->
+                        <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+                            <table class="w-full min-w-[600px] sm:min-w-full text-left">
+                                <thead class="border-b border-amber-200 dark:border-gray-700 text-[9px] sm:text-[10px] uppercase font-black text-primary">
+                                    <tr>
+                                        <th class="pb-3 sm:pb-4">BOOKING ID</th>
+                                        <th class="pb-3 sm:pb-4">CUSTOMER</th>
+                                        <th class="pb-3 sm:pb-4">VEHICLE</th>
+                                        <th class="pb-3 sm:pb-4">YEAR</th>
+                                        <th class="pb-3 sm:pb-4 text-center">STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-xs sm:text-sm font-medium">
+                                    <tr class="border-b border-amber-100 dark:border-gray-800 hover:bg-amber-50 dark:hover:bg-gray-800/50 transition-colors">
+                                        <td class="py-3 sm:py-4 font-black uppercase text-primary">#V-001</td>
+                                        <td class="py-3 sm:py-4">Michael Johnson</td>
+                                        <td class="py-3 sm:py-4">Mustang '65</td>
+                                        <td class="py-3 sm:py-4">1965</td>
+                                        <td class="py-3 sm:py-4 text-center">
+                                            <span class="bg-primary/10 text-primary px-2 sm:px-3 py-1.5 rounded-full text-[8px] sm:text-[9px] font-black uppercase">
+                                                ACTIVE
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-amber-100 dark:border-gray-800 hover:bg-amber-50 dark:hover:bg-gray-800/50 transition-colors">
+                                        <td class="py-3 sm:py-4 font-black uppercase text-primary">#V-002</td>
+                                        <td class="py-3 sm:py-4">Jessica Williams</td>
+                                        <td class="py-3 sm:py-4">Porsche 911</td>
+                                        <td class="py-3 sm:py-4">1973</td>
+                                        <td class="py-3 sm:py-4 text-center">
+                                            <span class="bg-green-100 text-green-600 px-2 sm:px-3 py-1.5 rounded-full text-[8px] sm:text-[9px] font-black uppercase">
+                                                CONFIRMED
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-amber-100 dark:border-gray-800 hover:bg-amber-50 dark:hover:bg-gray-800/50 transition-colors">
+                                        <td class="py-3 sm:py-4 font-black uppercase text-primary">#V-003</td>
+                                        <td class="py-3 sm:py-4">David Brown</td>
+                                        <td class="py-3 sm:py-4">Jaguar E-Type</td>
+                                        <td class="py-3 sm:py-4">1967</td>
+                                        <td class="py-3 sm:py-4 text-center">
+                                            <span class="bg-yellow-100 text-yellow-600 px-2 sm:px-3 py-1.5 rounded-full text-[8px] sm:text-[9px] font-black uppercase">
+                                                PENDING
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Booking Summary -->
+                        <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800 rounded-xl text-center">
+                                <p class="text-[9px] font-black text-primary">TOTAL</p>
+                                <p class="text-base font-black mt-1">23</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800 rounded-xl text-center">
+                                <p class="text-[9px] font-black text-primary">ACTIVE</p>
+                                <p class="text-base font-black mt-1 text-primary">12</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800 rounded-xl text-center">
+                                <p class="text-[9px] font-black text-primary">COMPLETED</p>
+                                <p class="text-base font-black mt-1 text-green-600">8</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 dark:bg-gray-800 rounded-xl text-center">
+                                <p class="text-[9px] font-black text-primary">UPCOMING</p>
+                                <p class="text-base font-black mt-1 text-primary">3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === RESTORATIONS PAGE === -->
+                <div id="page-restorations" class="page-node">
+                    <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="vintage-title text-lg sm:text-xl font-black uppercase flex items-center gap-2">
+                                    <i data-lucide="wrench" class="w-5 h-5 text-primary"></i>
+                                    RESTORATIONS
+                                </h3>
+                                <p class="text-[9px] sm:text-[10px] text-primary mt-1">4 cars in workshop</p>
+                            </div>
+                        </div>
+
+                        <!-- Restoration Projects -->
+                        <div class="space-y-4">
+                            <div class="p-4 bg-amber-50 dark:bg-gray-800 rounded-2xl">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=2025&auto=format&fit=crop" class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <div class="flex justify-between">
+                                            <h4 class="font-black">Mercedes 300SL '57</h4>
+                                            <span class="text-[8px] bg-primary/20 text-primary px-2 py-1 rounded-full font-black">75%</span>
+                                        </div>
+                                        <p class="text-[10px] text-gray-500">Engine rebuild • Interior restoration</p>
+                                        <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                            <div class="bg-primary h-1.5 rounded-full" style="width: 75%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 bg-amber-50 dark:bg-gray-800 rounded-2xl">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1964&auto=format&fit=crop" class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <div class="flex justify-between">
+                                            <h4 class="font-black">Jaguar E-Type '67</h4>
+                                            <span class="text-[8px] bg-primary/20 text-primary px-2 py-1 rounded-full font-black">45%</span>
+                                        </div>
+                                        <p class="text-[10px] text-gray-500">Body work • Paint restoration</p>
+                                        <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                            <div class="bg-primary h-1.5 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === NOTIFICATIONS PAGE - VINTAGE STYLE === -->
+                <div id="page-notifications" class="page-node">
+                    <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="vintage-title text-lg sm:text-xl font-black uppercase flex items-center gap-2">
+                                    <i data-lucide="bell" class="w-5 h-5 text-primary"></i>
+                                    NOTIFICATIONS
+                                </h3>
+                                <p class="text-[9px] sm:text-[10px] text-primary mt-1">Fleet updates & alerts</p>
+                            </div>
+                            <button class="bg-primary/10 text-primary text-[9px] font-black px-4 py-2 rounded-xl hover:bg-primary/20 transition-colors">
+                                <i data-lucide="check-check" class="w-3 h-3 inline mr-1"></i>
+                                Mark All Read
+                            </button>
+                        </div>
+
+                        <!-- Notifications List -->
+                        <div class="space-y-3">
+                            <div class="p-4 bg-primary/5 rounded-2xl border border-primary/20 notification-item">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="car" class="w-5 h-5 text-primary"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <p class="text-xs sm:text-sm font-black">Restoration Complete</p>
+                                            <span class="text-[8px] text-gray-400">10 min ago</span>
+                                        </div>
+                                        <p class="text-[9px] sm:text-[10px] text-gray-600 dark:text-gray-400">1965 Mustang ready for delivery</p>
+                                        <span class="text-[8px] text-primary font-black mt-1 inline-block">#M-1965</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-amber-50 dark:bg-gray-800 rounded-2xl notification-item">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="calendar" class="w-5 h-5 text-blue-500"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <p class="text-xs sm:text-sm font-black">New Booking</p>
+                                            <span class="text-[8px] text-gray-400">25 min ago</span>
+                                        </div>
+                                        <p class="text-[9px] sm:text-[10px] text-gray-600 dark:text-gray-400">Porsche 911 booked for weekend</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === SECURITY PAGE === -->
+                <div id="page-security" class="page-node">
+                    <div class="vintage-card bg-white dark:bg-[#1E293B] p-4 sm:p-6 rounded-2xl custom-shadow border border-amber-200 dark:border-gray-700">
+                        <div class="flex items-center gap-2 mb-6">
+                            <i data-lucide="shield" class="w-6 h-6 text-primary"></i>
+                            <h3 class="vintage-title text-lg sm:text-xl font-black uppercase">Security Settings</h3>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Password Section -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-xl p-4">
+                                <h4 class="text-xs font-black uppercase mb-4 flex items-center gap-2">
+                                    <i data-lucide="key" class="w-4 h-4 text-primary"></i>
+                                    Password & Authentication
+                                </h4>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs font-bold">Password Strength</p>
+                                        <div class="flex items-center gap-1 mt-2">
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-primary rounded-full"></span>
+                                            <span class="w-1 h-4 bg-gray-300 rounded-full"></span>
+                                            <span class="text-[8px] font-bold text-primary ml-2">Strong</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-[9px] font-black text-primary hover:underline">Change</button>
+                                </div>
+                            </div>
+
+                            <!-- Two-Factor -->
+                            <div class="bg-amber-50 dark:bg-gray-800/50 rounded-xl p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-xs font-black">Two-Factor Authentication</h4>
+                                        <p class="text-[8px] text-gray-500 mt-1">Protect your account with 2FA</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="mt-8 text-center text-[8px] sm:text-[9px] text-primary/60 uppercase tracking-wider">
+                <p>© 2024 GrowwCar Vintage · Heritage Fleet Management</p>
+                <p class="mt-1">Since 1975 · Preserving Automotive History</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            
+            if (window.innerWidth < 1024) {
+                if (overlay) {
+                    overlay.classList.toggle('hidden');
+                }
+            }
+            
+            if (menuIcon) {
+                const isHidden = sidebar.classList.contains('-translate-x-full');
+                menuIcon.setAttribute('data-lucide', isHidden ? 'menu' : 'x');
+                lucide.createIcons();
+            }
+        }
+
+        // Window resize handler
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+                if (overlay) overlay.classList.add('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                if (overlay) overlay.classList.add('hidden');
+            }
+        });
+
+        // Dark Mode
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            
+            const icon = document.getElementById('themeIcon');
+            const isDark = html.classList.contains('dark');
+            
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+            
+            localStorage.setItem('darkMode', isDark ? 'dark' : 'light');
+        }
+
+        // Check saved dark mode
+        if (localStorage.getItem('darkMode') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.getElementById('themeIcon')?.setAttribute('data-lucide', 'sun');
+            lucide.createIcons();
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.getElementById('htmlTag');
+            const dirText = document.getElementById('dirText');
+            
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            dirText.innerText = html.dir.toUpperCase();
+            
+            if (window.revenueChart) {
+                window.revenueChart.update();
+            }
+            
+            lucide.createIcons();
+        }
+
+        // Page Switching
+        function showPage(pageId) {
+            document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
+            
+            const targetNode = document.getElementById('page-' + pageId);
+            if (targetNode) {
+                targetNode.classList.add('active');
+            }
+            
+            const pageTitles = {
+                'stats': 'CLASSIC DASHBOARD',
+                'fleet': 'VINTAGE FLEET',
+                'bookings': 'CLASSIC BOOKINGS',
+                'restorations': 'RESTORATIONS',
+                'notifications': 'NOTIFICATIONS',
+                'security': 'SECURITY'
+            };
+            
+            const titleElement = document.getElementById('pageTitle');
+            if (titleElement) {
+                titleElement.innerText = pageTitles[pageId] || pageId.toUpperCase();
+            }
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('sidebar-active');
+            });
+            
+            const activeBtn = document.getElementById('btn-' + pageId);
+            if (activeBtn) {
+                activeBtn.classList.add('sidebar-active');
+            }
+
+            if (window.innerWidth < 1024) {
+                toggleSidebar();
+            }
+            
+            if (pageId === 'stats' && window.revenueChart) {
+                setTimeout(() => {
+                    window.revenueChart.update();
+                    window.trafficChart?.update();
+                }, 100);
+            }
+        }
+
+        // Live Time
+        function updateLiveTime() {
+            const timeElement = document.getElementById('liveTime');
+            if (timeElement) {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const formattedHours = hours % 12 || 12;
+                const formattedMinutes = minutes.toString().padStart(2, '0');
+                timeElement.innerText = `${formattedHours}:${formattedMinutes} ${ampm} EST`;
+            }
+        }
+        
+        setInterval(updateLiveTime, 1000);
+        updateLiveTime();
+
+        // Charts - Vintage Theme
+        const ctxRevenue = document.getElementById('revenueChart')?.getContext('2d');
+        if (ctxRevenue) {
+            window.revenueChart = new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Vintage Rentals',
+                            data: [12, 15, 18, 22, 25, 30],
+                            borderColor: '#b91c1c',
+                            backgroundColor: 'rgba(185, 28, 28, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Modern Rentals',
+                            data: [28, 32, 35, 38, 42, 45],
+                            borderColor: '#854d0e',
+                            backgroundColor: 'rgba(133, 77, 14, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: document.documentElement.classList.contains('dark') ? '#1E293B' : '#FFFFFF',
+                            titleColor: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#111827',
+                            bodyColor: document.documentElement.classList.contains('dark') ? '#E5E7EB' : '#4B5563'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: document.documentElement.classList.contains('dark') ? 'rgba(255, 255, 255, 0.1)' : 'rgba(185, 28, 28, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        const ctxTraffic = document.getElementById('trafficChart')?.getContext('2d');
+        if (ctxTraffic) {
+            window.trafficChart = new Chart(ctxTraffic, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Vintage', 'Modern', 'Restored', 'Original'],
+                    datasets: [
+                        {
+                            data: [38, 62, 45, 55],
+                            backgroundColor: ['#b91c1c', '#854d0e', '#16a34a', '#2563eb'],
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: document.documentElement.classList.contains('dark') ? '#1E293B' : '#FFFFFF',
+                            titleColor: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#111827',
+                            bodyColor: document.documentElement.classList.contains('dark') ? '#E5E7EB' : '#4B5563'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.createElement('div');
+            overlay.id = 'sidebarOverlay';
+            overlay.className = 'fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity duration-300';
+            overlay.onclick = toggleSidebar;
+            document.body.appendChild(overlay);
+            
+            showPage('stats');
+            lucide.createIcons();
+        });
+
+        // Prevent double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

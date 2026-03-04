@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Car Breakdown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Animations */
+        @keyframes car-shake {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes wrench-move {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-40deg); }
+        }
+        @keyframes smoke {
+            0% { opacity: 0; transform: translateY(0) scale(0.5); }
+            50% { opacity: 0.5; }
+            100% { opacity: 0; transform: translateY(-40px) scale(1.5); }
+        }
+        .animate-car { animation: car-shake 0.6s ease-in-out infinite; }
+        .animate-wrench { animation: wrench-move 1.5s ease-in-out infinite; }
+        .smoke-particle { animation: smoke 2s linear infinite; }
+    </style>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen text-white font-sans overflow-hidden">
+
+    <div class="text-center px-4">
+        <div class="relative w-64 h-48 mx-auto mb-8">
+            <div class="absolute top-10 right-10 flex space-x-2">
+                <div class="smoke-particle w-4 h-4 bg-gray-400 rounded-full blur-sm"></div>
+                <div class="smoke-particle w-6 h-6 bg-gray-500 rounded-full blur-sm delay-75"></div>
+            </div>
+
+            <div class="animate-car absolute bottom-10 left-1/2 -translate-x-1/2 w-48 h-16 bg-red-500 rounded-tr-[50px] rounded-tl-lg shadow-2xl">
+                <div class="absolute top-2 right-4 w-12 h-6 bg-blue-300 rounded-tr-[20px] opacity-60"></div>
+                <div class="absolute -bottom-4 left-6 w-10 h-10 bg-zinc-800 border-4 border-zinc-700 rounded-full"></div>
+                <div class="absolute -bottom-4 right-6 w-10 h-10 bg-zinc-800 border-4 border-zinc-700 rounded-full"></div>
+            </div>
+
+            <div class="animate-wrench absolute -top-4 left-1/2 text-5xl">
+                🔧
+            </div>
+        </div>
+
+        <h1 class="text-9xl font-black text-red-500 tracking-tighter drop-shadow-lg">404</h1>
+        <h2 class="text-2xl font-bold mt-4">Mechanic is on the way!</h2>
+        <p class="text-slate-400 mt-2 max-w-md mx-auto">
+            Unga car vazhi la nikka vachiduchi. Don't worry, namma mechanic fix pannitu irukkaru!
+        </p>
+
+        <div class="mt-10">
+            <a href="index.html" 
+               class="inline-block px-8 py-3 bg-red-500 hover:bg-yellow-400 text-slate-900 font-bold text-lg rounded-full transition-all duration-300 transform hover:scale-110 shadow-[0_0_20px_rgba(234,179,8,0.4)]">
+                Back to Home
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

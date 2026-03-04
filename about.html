@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>GrowwCar Vintage  - about</title>
+    <link rel="icon" type="imags/jpg" href="img/growwpark_logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#dc2626',
+                        darkBg: '#0f172a'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                } 
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        body.dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Floating Navbar - Red Theme */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            
+            transition: all 0.3s ease;
+        }
+        
+        .dark .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        
+        .navbar.scrolled {
+            top: 10px;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.25);
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #dc2626;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .dark .logo span:last-child {
+            color: white;
+        }
+        
+        /* Nav Links - With Red Hover */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .nav-link {
+            color: #e2e8f0;
+        }
+        
+        .nav-link:hover {
+            background: #dc2626;
+            color: white !important;
+            
+        }
+        
+        .nav-link.active {
+            background: #dc2626;
+            color: white !important;
+            
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 10px;
+            min-width: 180px;
+            background: white;
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dark .dropdown-menu {
+            background: #1e293b;
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .dropdown-item {
+            color: #e2e8f0;
+        }
+        
+        .dropdown-item:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .dropdown-item.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Full Screen Mobile Menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .dark #mobileMenu {
+            background: rgba(15, 23, 42, 0.98);
+        }
+        
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Header */
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #dc2626;
+            margin-bottom: 30px;
+        }
+        
+        .dark .mobile-header {
+            border-color: #dc2626;
+        }
+        
+        /* Close Button */
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #dc2626;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+        }
+        
+        .close-btn:hover {
+            background: #b91c1c;
+            transform: rotate(90deg);
+        }
+        
+        /* Mobile Links - With Red Hover */
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 25px;
+            margin: 8px 0;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1e293b;
+            background: rgba(220, 38, 38, 0.05);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .mobile-link {
+            color: #e2e8f0;
+            background: rgba(220, 38, 38, 0.1);
+        }
+        
+        .mobile-link:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateX(10px);
+        }
+        
+        .mobile-link.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Mobile Submenu */
+        .mobile-submenu {
+            margin-left: 30px;
+            padding-left: 30px;
+            border-left: 2px solid #dc2626;
+            display: none;
+        }
+        
+        .mobile-submenu.open {
+            display: block;
+        }
+        
+        .mobile-submenu a {
+            display: block;
+            padding: 15px 25px;
+            margin: 5px 0;
+            border-radius: 50px;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .mobile-submenu a {
+            color: #e2e8f0;
+        }
+        
+        .mobile-submenu a:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateX(10px);
+        }
+        
+        .mobile-submenu a.active {
+            background: #dc2626;
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: #dc2626;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .action-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        /* Auth Buttons */
+        .auth-btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .login-btn {
+            background: transparent;
+            border: 2px solid #dc2626;
+            color: #dc2626;
+        }
+        
+        .login-btn:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+        }
+        
+        .signup-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        .signup-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.5);
+        }
+        
+        /* Settings Section */
+        .settings-section {
+            background: rgba(220, 38, 38, 0.05);
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            border-radius: 24px;
+            padding: 20px;
+        }
+        
+        .dark .settings-section {
+            background: rgba(220, 38, 38, 0.1);
+        }
+        
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .desktop-auth {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+            #mobileMenu {
+                display: block !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+            #mobileMenu {
+                display: none !important;
+            }
+            .desktop-menu {
+                display: flex !important;
+            }
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+        
+        /* iPad Pro Specific */
+        @media (min-width: 1024px) and (max-width: 1366px) {
+            .desktop-menu {
+                display: none !important;
+            }
+            .mobile-toggle {
+                display: flex !important;
+            }
+            #mobileMenu {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="light font-inter">
+
+    <!-- Navbar - Red Theme -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo - Red with Wrench Icon -->
+                <a href="index.html" class="logo">
+                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    <span class="font-black text-lg text-primary">Groww</span>
+                    <span class="font-black text-lg text-gray-500 dark:text-white">Vintage</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <!-- Home Dropdown -->
+                    <div class="dropdown-group relative inline-block">
+                        <button class="nav-link">
+                            Home <i data-lucide="chevron-down" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item ">Home 1</a>
+                            <a href="home2.html" class="dropdown-item">Home 2</a>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="nav-link  active">About</a>
+                    <a href="services.html" class="nav-link">Services</a>
+                    <a href="booking.html" class="nav-link">Booking</a>
+                    <a href="price.html" class="nav-link">Price</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+
+                    <!-- Dashboard Dropdown -->
+                    <div class="dropdown-group relative inline-block">
+                        <button class="nav-link">
+                            Dashboard <i data-lucide="chevron-down" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">Admin</a>
+                            <a href="user.html" class="dropdown-item">User</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="flex items-center gap-2">
+                    <!-- Theme & Direction -->
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn">
+                          <i class="fa-solid fa-left-right"></i>
+                        </button>
+                        <button onclick="toggleTheme()" class="action-btn">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Auth -->
+                    <div class="desktop-auth relative dropdown-group">
+                        <button class="action-btn">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </button>
+                        <div class="dropdown-menu" style="right: 0; left: auto;">
+                            <a href="login.html" class="dropdown-item">Login</a>
+                            <a href="signup.html" class="dropdown-item">Signup</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div id="mobileMenu">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                <span class="font-black text-primary">Groww</span>
+                <span class="font-black text-gray-500 dark:text-white">Vintage</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="px-4">
+            <!-- Home Section -->
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link">
+                <span>HOME</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()" class="">HOME 1</a>
+                <a href="home2.html" onclick="closeMobileMenu()">HOME 2</a>
+            </div>
+
+            <a href="about.html" class="mobile-link  active" onclick="closeMobileMenu()">
+                <span>ABOUT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="services.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>SERVICES</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="booking.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>BOOKING</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="price.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>PRICE</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <a href="contact.html" class="mobile-link" onclick="closeMobileMenu()">
+                <span>CONTACT</span>
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+
+            <!-- Dashboard Section -->
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>DASHBOARD</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+                <a href="user.html" onclick="closeMobileMenu()">USER</a>
+            </div>
+
+            <!-- Settings -->
+            <div class="settings-section mt-8">
+                <div class="flex items-center justify-between mb-5">
+                    <span class="font-bold text-gray-900 dark:text-white">DIRECTION</span>
+                    <button onclick="toggleDirection()" class="action-btn">
+                        <i class="fa-solid fa-left-right"></i>
+                    </button>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-gray-900 dark:text-white">THEME</span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="mt-5 flex gap-3">
+                <a href="login.html" class="auth-btn login-btn flex-1" onclick="closeMobileMenu()">LOGIN</a>
+                <a href="signup.html" class="auth-btn signup-btn flex-1" onclick="closeMobileMenu()">SIGNUP</a>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.toggle('open');
+            body.classList.toggle('menu-open');
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+            
+            mobileMenu.classList.remove('open');
+            body.classList.remove('menu-open');
+            
+            document.querySelectorAll('.mobile-submenu').forEach(submenu => {
+                submenu.classList.remove('open');
+            });
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const icon = submenu.previousElementSibling.querySelector('i:last-child');
+            
+            document.querySelectorAll('.mobile-submenu').forEach(menu => {
+                if (menu.id !== submenuId && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    const prevIcon = menu.previousElementSibling.querySelector('i:last-child');
+                    if (prevIcon) prevIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            submenu.classList.toggle('open');
+            
+            if (icon) {
+                icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            html.classList.toggle('dark');
+            body.classList.toggle('dark');
+            
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction Toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            const mobileDirText = document.getElementById('mobileDirText');
+            
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            
+            if (mobileDirText) {
+                mobileDirText.innerText = html.dir.toUpperCase();
+            }
+            
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileDirText = document.getElementById('mobileDirText');
+            if (mobileDirText) {
+                mobileDirText.innerText = document.documentElement.dir.toUpperCase();
+            }
+            lucide.createIcons();
+        });
+
+        // Close menu with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu.classList.contains('open')) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                });
+            }
+        });
+    </script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    section { font-family: 'Poppins', sans-serif; }
+</style>
+
+<section class="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#050505]">
+    <div class="absolute inset-0 z-0">
+        <img src="img/home2-3.jpg" 
+             alt="Vintage Car Header" 
+             class="w-full h-full object-cover opacity-30 grayscale-[30%]">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-[#050505]"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto px-6 flex flex-col items-center justify-center text-center text-white">
+        
+        
+
+        <h1 class="text-5xl md:text-7xl font-bold mb-8 tracking-tighter  leading-none">
+            Vintage <span class="text-gray-500 font-light">Legends</span>
+        </h1>
+
+        <div class="max-w-2xl">
+            <p class="text-sm md:text-lg text-gray-300 leading-relaxed mb-10 font-light">
+                We specialize in the meticulous restoration of automotive history. 
+                By blending classic aesthetics with modern precision, we ensure that every legendary 
+                machine we touch is brought back to its ultimate glory.
+            </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a href="services.html" 
+               class="px-10 py-4 bg-red-600 text-white hover:bg-red-700 transition-all duration-300 text-[11px] font-bold uppercase tracking-[0.2em] rounded-sm">
+                Explore Collection
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<section class="py-20 bg-gray-100 dark:bg-gray-900 font-['Poppins']">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="relative order-2 lg:order-1 group">
+                <div class="overflow-hidden rounded-2xl shadow-2xl">
+                    <img src="img/home2-5.jpg" 
+                         alt="Vintage Workshop Craftsmanship" 
+                         class="w-full h-auto object-cover transform group-hover:scale-105 transition-duration-700">
+                </div>
+                
+                
+            </div>
+            
+            <div class="order-1 lg:order-2">
+                
+                
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-8">
+                    From a Small Garage to <span class=" text-red-600">India's Premier</span> Facility
+                </h2>
+
+                <div class="space-y-6">
+                    <p class="text-gray-600 dark:text-gray-400 text-base md:text-lg leading-relaxed">
+                        Founded in 1985 by master craftsman **Rajesh Mehta**, Vintage Restore began as a modest two-person garage. What started as a passion project soon grew into a trusted name among classic car enthusiasts across the nation.
+                    </p>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 text-base md:text-lg leading-relaxed">
+                        Today, our 5,000 sq.ft facility houses **12 expert craftsmen** who have collectively restored over 500 classic automobiles. We've earned the trust of collectors worldwide, featured in prestigious concours events.
+                    </p>
+                </div>
+                
+                <div class="mt-10 flex items-start gap-5 bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl border-l-4 border-red-600 shadow-sm">
+                    <div class="shrink-0 text-red-600 opacity-20">
+                        <svg class="w-10 h-10 fill-current" viewBox="0 0 32 32">
+                            <path d="M10 8v8H6v6h6V8h-2zm14 0v8h-4v6h6V8h-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-gray-800 dark:text-gray-200 font-medium italic text-lg leading-snug">
+                            "Every car has a story. We're here to help it live forever."
+                        </p>
+                        <p class="text-gray-500 text-xs uppercase tracking-widest mt-4 font-bold">— Rajesh Mehta, Founder</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+    
+
+    <!-- COMPANY VALUES -->
+<section class="py-20 bg-gray-50 dark:bg-gray-950 font-['Poppins']">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+        
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                Our Core <span class="text-red-600">Values</span>
+            </h2>
+            <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+        </div>
+        
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <div class="group relative bg-white dark:bg-gray-900 p-10 rounded-2xl text-center 
+                        shadow-[0_10px_30px_rgba(0,0,0,0.08)] 
+                        hover:shadow-[0_20px_50px_rgba(220,38,38,0.15)] 
+                        transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 dark:border-gray-800">
+                
+                <div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6 
+                            shadow-inner group-hover:bg-red-600 transition-colors duration-500">
+                    <i class="fas fa-gem text-2xl text-red-600 group-hover:text-white transition-colors duration-500"></i>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Authenticity</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                    We source genuine period-correct parts and maintain original specifications.
+                </p>
+            </div>
+            
+            <div class="group relative bg-white dark:bg-gray-900 p-10 rounded-2xl text-center 
+                        shadow-[0_10px_30px_rgba(0,0,0,0.08)] 
+                        hover:shadow-[0_20px_50px_rgba(220,38,38,0.15)] 
+                        transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 dark:border-gray-800">
+                
+                <div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6 
+                            shadow-inner group-hover:bg-red-600 transition-colors duration-500">
+                    <i class="fas fa-microscope text-2xl text-red-600 group-hover:text-white transition-colors duration-500"></i>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Precision</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                    Every measurement and every detail matters. We never compromise on technical quality.
+                </p>
+            </div>
+            
+            <div class="group relative bg-white dark:bg-gray-900 p-10 rounded-2xl text-center 
+                        shadow-[0_10px_30px_rgba(0,0,0,0.08)] 
+                        hover:shadow-[0_20px_50px_rgba(220,38,38,0.15)] 
+                        transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 dark:border-gray-800">
+                
+                <div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6 
+                            shadow-inner group-hover:bg-red-600 transition-colors duration-500">
+                    <i class="fas fa-hand-holding-heart text-2xl text-red-600 group-hover:text-white transition-colors duration-500"></i>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Passion</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                    We're enthusiasts first, restorers second. This is more than a business.
+                </p>
+            </div>
+            
+            <div class="group relative bg-white dark:bg-gray-900 p-10 rounded-2xl text-center 
+                        shadow-[0_10px_30px_rgba(0,0,0,0.08)] 
+                        hover:shadow-[0_20px_50px_rgba(220,38,38,0.15)] 
+                        transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 dark:border-gray-800">
+                
+                <div class="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6 
+                            shadow-inner group-hover:bg-red-600 transition-colors duration-500">
+                    <i class="fas fa-users text-2xl text-red-600 group-hover:text-white transition-colors duration-500"></i>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Trust</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                    Transparent communication and honest assessments build our relationships.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="relative min-h-[600px] md:min-h-[700px] lg:min-h-[800px] w-full flex items-center bg-gray-200 dark:bg-gray-950 font-['Poppins'] overflow-hidden py-8 md:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center">
+            
+            <!-- Image - Top on mobile/tablet, Right on desktop -->
+            <div class="relative order-1 lg:order-2 group w-full h-[250px] sm:h-[350px] md:h-[400px] lg:h-[550px]">
+                <div class="h-full w-full overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] shadow-2xl border-[8px] sm:border-[10px] md:border-[12px] border-white dark:border-gray-900 relative">
+                    <img src="img/home2-2.jpg" 
+                         alt="Our Modern Workshop" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    
+                    <!-- Overlay Content -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-6 sm:p-8 md:p-10 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <h4 class="text-white text-lg sm:text-xl md:text-2xl font-bold mb-3 md:mb-4 border-b border-white/20 pb-2 uppercase italic">Workshop Features</h4>
+                        <div class="grid grid-cols-2 gap-2 md:gap-3">
+                            <div class="flex items-center gap-2 text-white/90 text-xs sm:text-sm">
+                                <i class="fas fa-check-circle text-red-500 text-xs sm:text-sm"></i> Paint booth
+                            </div>
+                            <div class="flex items-center gap-2 text-white/90 text-xs sm:text-sm">
+                                <i class="fas fa-check-circle text-red-500 text-xs sm:text-sm"></i> Dyno testing
+                            </div>
+                            <div class="flex items-center gap-2 text-white/90 text-xs sm:text-sm">
+                                <i class="fas fa-check-circle text-red-500 text-xs sm:text-sm"></i> Hydraulic lifts
+                            </div>
+                            <div class="flex items-center gap-2 text-white/90 text-xs sm:text-sm">
+                                <i class="fas fa-check-circle text-red-500 text-xs sm:text-sm"></i> Frame machine
+                            </div>
+                            <div class="flex items-center gap-2 text-white/90 text-xs sm:text-sm">
+                                <i class="fas fa-check-circle text-red-500 text-xs sm:text-sm"></i> Photo studio
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+
+            <!-- Content - Bottom on mobile/tablet, Left on desktop -->
+            <div class="order-2 lg:order-1 text-center lg:text-left">
+                
+                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white leading-tight uppercase italic mb-4 md:mb-6">
+                    State of the Art <br class="hidden sm:block"/> <span class="text-red-600">Workshop</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base md:text-lg mb-6 md:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                    Spread across 5000 square feet, our facility is a sanctuary for classic cars, equipped with world-class technology for perfect restoration.
+                </p>
+                
+                <!-- Features List -->
+                <div class="space-y-3 md:space-y-4 flex flex-col items-center lg:items-start">
+                    <!-- Feature 1 -->
+                    <div class="flex items-center gap-3 group w-full justify-center lg:justify-start">
+                        <div class="w-2 h-2 bg-red-600 rounded-full group-hover:scale-150 transition-transform"></div>
+                        <span class="text-gray-700 dark:text-gray-300 text-sm sm:text-base font-medium italic">Precision Engineering Lab</span>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="flex items-center gap-3 group w-full justify-center lg:justify-start">
+                        <div class="w-2 h-2 bg-red-600 rounded-full group-hover:scale-150 transition-transform"></div>
+                        <span class="text-gray-700 dark:text-gray-300 text-sm sm:text-base font-medium italic">Climate-Controlled Paint Booth</span>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="flex items-center gap-3 group w-full justify-center lg:justify-start">
+                        <div class="w-2 h-2 bg-red-600 rounded-full group-hover:scale-150 transition-transform"></div>
+                        <span class="text-gray-700 dark:text-gray-300 text-sm sm:text-base font-medium italic">Engine Dyno Testing Facility</span>
+                    </div>
+                    
+                    <!-- Feature 4 -->
+                    <div class="flex items-center gap-3 group w-full justify-center lg:justify-start">
+                        <div class="w-2 h-2 bg-red-600 rounded-full group-hover:scale-150 transition-transform"></div>
+                        <span class="text-gray-700 dark:text-gray-300 text-sm sm:text-base font-medium italic">Hydraulic Lifts (6 stations)</span>
+                    </div>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="mt-6 md:mt-8 lg:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full justify-center lg:justify-start">
+                    <a href="#" class="px-5 py-2.5 md:px-6 md:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2">
+                        <i class="fas fa-tools"></i> Tour Facility
+                    </a>
+                    <a href="#" class="px-5 py-2.5 md:px-6 md:py-3 border-2 border-red-600 text-red-600 dark:text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-colors text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2">
+                        <i class="fas fa-calendar"></i> Schedule Visit
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Responsive CSS for Tailwind -->
+<style>
+    /* Poppins Font */
+    .font-\[\'Poppins\'\] {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Mobile First - Image on top, content below */
+    @media (max-width: 1023px) {
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .order-1 {
+            order: 1;
+        }
+        
+        .order-2 {
+            order: 2;
+        }
+        
+        /* Image takes full width on mobile/tablet */
+        .h-\[250px\] {
+            height: 250px;
+        }
+        
+        .sm\:h-\[350px\] {
+            height: 350px;
+        }
+        
+        .md\:h-\[400px\] {
+            height: 400px;
+        }
+        
+        /* Content spacing */
+        .gap-8 {
+            gap: 1.5rem;
+        }
+    }
+    
+    /* iPhone SE and small phones */
+    @media (max-width: 375px) {
+        .h-\[250px\] {
+            height: 200px;
+        }
+        
+        .text-3xl {
+            font-size: 1.8rem;
+        }
+        
+        .border-\[8px\] {
+            border-width: 5px;
+        }
+    }
+    
+    /* iPad and Tablets (768px - 1023px) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .md\:h-\[400px\] {
+            height: 380px;
+        }
+        
+        .text-4xl {
+            font-size: 3.2rem;
+        }
+        
+        .max-w-lg {
+            max-width: 90%;
+        }
+    }
+    
+    /* iPad Pro specific (1024px) */
+    @media (min-width: 1024px) and (max-width: 1366px) {
+        .lg\:h-\[550px\] {
+            height: 500px;
+        }
+        
+        .lg\:text-left {
+            text-align: left;
+        }
+        
+        .lg\:items-start {
+            align-items: flex-start;
+        }
+        
+        .lg\:justify-start {
+            justify-content: flex-start;
+        }
+        
+        /* Content width adjustment */
+        .max-w-lg {
+            max-width: 500px;
+            margin-left: 0;
+        }
+    }
+    
+    /* iPad Pro Landscape */
+    @media (orientation: landscape) and (min-width: 1024px) {
+        .lg\:h-\[550px\] {
+            height: 480px;
+        }
+        
+        .py-8 {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+    }
+    
+    /* iPad Pro Portrait */
+    @media (orientation: portrait) and (min-width: 1024px) {
+        .lg\:h-\[550px\] {
+            height: 450px;
+        }
+        
+        .gap-20 {
+            gap: 3rem;
+        }
+    }
+    
+    /* Desktop (1024px and above) */
+    @media (min-width: 1024px) {
+        .lg\:grid {
+            display: grid;
+        }
+        
+        .lg\:order-1 {
+            order: 1;
+        }
+        
+        .lg\:order-2 {
+            order: 2;
+        }
+        
+        .lg\:h-\[550px\] {
+            height: 550px;
+        }
+    }
+    
+    /* Hover Effects */
+    .group-hover\:scale-110 {
+        transition: transform 0.5s ease;
+    }
+    
+    .group:hover .group-hover\:scale-110 {
+        transform: scale(1.1);
+    }
+    
+    .group-hover\:opacity-100 {
+        transition: opacity 0.4s ease;
+    }
+    
+    .group:hover .group-hover\:opacity-100 {
+        opacity: 1;
+    }
+    
+    /* Backdrop blur for overlay */
+    .backdrop-blur-sm {
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+    
+    /* Smooth transitions */
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    /* Ensure content is visible */
+    .overflow-hidden {
+        overflow: hidden;
+    }
+</style>
+
+    <!-- FAQ SECTION -->
+<section class="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-5 dark:opacity-10 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16 relative">
+            <!-- Title -->
+            <h2 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white mt-3 leading-tight">
+                Frequently Asked 
+                <span class="relative inline-block">
+                    <span class="relative z-10 text-red-600">Questions</span>
+                </span>
+            </h2>
+            
+            <!-- Description -->
+            <p class="text-gray-600 dark:text-gray-400 mt-6 text-lg flex items-center justify-center gap-2">
+                <i class="fas fa-circle-info text-red-600"></i>
+                Everything you need to know about our restoration process
+            </p>
+            
+            <!-- Stats Counter -->
+            <div class="flex justify-center gap-8 mt-8">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900 dark:text-white">6+</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">Common Questions</div>
+                </div>
+                <div class="w-px h-10 bg-gray-300 dark:bg-gray-700"></div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900 dark:text-white">24/7</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">Support Available</div>
+                </div>
+                <div class="w-px h-10 bg-gray-300 dark:bg-gray-700"></div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-gray-900 dark:text-white">100%</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">Satisfaction</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ Grid - All items same size -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item group bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-red-600 hover:border-red-700 overflow-hidden h-full flex flex-col">
+                <div class="faq-question flex justify-between items-start cursor-pointer p-6" onclick="toggleFAQ(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-clock text-red-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">How long does a typical restoration take?</h3>
+                    </div>
+                    <i class="fas fa-plus-circle text-2xl text-red-600 faq-icon flex-shrink-0 transition-all duration-300"></i>
+                </div>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="p-6 pt-0 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
+                        <p class="leading-relaxed">Restoration timelines vary depending on the scope of work. A full concours restoration typically takes 12-18 months, while partial restorations or mechanical work can take 3-6 months. We provide detailed timelines during the initial consultation.</p>
+                        <!-- Progress Bar -->
+                        <div class="mt-4 flex items-center gap-3">
+                            <span class="text-sm font-medium text-gray-500">Quick response:</span>
+                            <div class="flex-1 h-2 bg-gray-200 rounded-full">
+                                <div class="h-2 bg-red-600 rounded-full w-3/4"></div>
+                            </div>
+                            <span class="text-sm text-gray-500">24h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 2 -->
+            <div class="faq-item group bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-red-600 hover:border-red-700 overflow-hidden h-full flex flex-col">
+                <div class="faq-question flex justify-between items-start cursor-pointer p-6" onclick="toggleFAQ(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-gear text-red-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Do you source original parts?</h3>
+                    </div>
+                    <i class="fas fa-plus-circle text-2xl text-red-600 faq-icon flex-shrink-0 transition-all duration-300"></i>
+                </div>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="p-6 pt-0 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
+                        <p class="leading-relaxed">Yes, we have a global network of parts suppliers and specialize in sourcing authentic period-correct components. When original parts aren't available, we use high-quality reproductions that meet original specifications.</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full">Original Parts</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">Global Network</span>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-sm rounded-full">Quality Assured</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 3 -->
+            <div class="faq-item group bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-red-600 hover:border-red-700 overflow-hidden h-full flex flex-col">
+                <div class="faq-question flex justify-between items-start cursor-pointer p-6" onclick="toggleFAQ(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-indian-rupee-sign text-red-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">What is the cost range for restoration?</h3>
+                    </div>
+                    <i class="fas fa-plus-circle text-2xl text-red-600 faq-icon flex-shrink-0 transition-all duration-300"></i>
+                </div>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="p-6 pt-0 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
+                        <p class="leading-relaxed">Costs vary based on the car's condition and restoration scope. Basic mechanical restoration starts from ₹1.8L, full body restoration from ₹2.4L, and complete concours restorations can range from ₹5L to ₹15L+. We provide detailed quotes after inspection.</p>
+                        <!-- Price Table -->
+                        <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+                            <div class="p-2 bg-gray-50 dark:bg-gray-800 rounded">
+                                <div class="text-xs text-gray-500">Basic</div>
+                                <div class="font-bold text-red-600">₹1.8L+</div>
+                            </div>
+                            <div class="p-2 bg-gray-50 dark:bg-gray-800 rounded">
+                                <div class="text-xs text-gray-500">Full Body</div>
+                                <div class="font-bold text-red-600">₹2.4L+</div>
+                            </div>
+                            <div class="p-2 bg-gray-50 dark:bg-gray-800 rounded">
+                                <div class="text-xs text-gray-500">Concours</div>
+                                <div class="font-bold text-red-600">₹5L+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 4 -->
+            <div class="faq-item group bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-red-600 hover:border-red-700 overflow-hidden h-full flex flex-col">
+                <div class="faq-question flex justify-between items-start cursor-pointer p-6" onclick="toggleFAQ(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-car text-red-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Do you offer restoration for all classic car makes?</h3>
+                    </div>
+                    <i class="fas fa-plus-circle text-2xl text-red-600 faq-icon flex-shrink-0 transition-all duration-300"></i>
+                </div>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="p-6 pt-0 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
+                        <p class="leading-relaxed">We specialize in European and American classics from the 1950s-1970s, including Jaguar, Porsche, Mercedes, Ford, Chevrolet, and more. Our team has experience with over 50 different makes and models.</p>
+                        <!-- Brand Icons -->
+                        <div class="mt-4 flex gap-3">
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-bold">J</div>
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-bold">P</div>
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-bold">M</div>
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-bold">F</div>
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-bold">C</div>
+                            <span class="text-sm text-gray-500">+50 more</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 5 -->
+            <div class="faq-item group bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-red-600 hover:border-red-700 overflow-hidden h-full flex flex-col">
+                <div class="faq-question flex justify-between items-start cursor-pointer p-6" onclick="toggleFAQ(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-eye text-red-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Can I visit the workshop during restoration?</h3>
+                    </div>
+                    <i class="fas fa-plus-circle text-2xl text-red-600 faq-icon flex-shrink-0 transition-all duration-300"></i>
+                </div>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="p-6 pt-0 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
+                        <p class="leading-relaxed">Absolutely! We encourage clients to visit and see the progress. We also provide regular photo updates and have a customer portal where you can track the restoration progress in real-time.</p>
+                        <!-- Feature List -->
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-center gap-2 text-sm">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                                <span>Physical visits welcome</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                                <span>Weekly photo updates</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                                <span>Real-time tracking portal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Item 6 -->
+            <div class="faq-item group bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-red-600 hover:border-red-700 overflow-hidden h-full flex flex-col">
+                <div class="faq-question flex justify-between items-start cursor-pointer p-6" onclick="toggleFAQ(this)">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-shield text-red-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Do you provide warranty on restoration work?</h3>
+                    </div>
+                    <i class="fas fa-plus-circle text-2xl text-red-600 faq-icon flex-shrink-0 transition-all duration-300"></i>
+                </div>
+                <div class="faq-answer max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <div class="p-6 pt-0 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800">
+                        <p class="leading-relaxed">Yes, all our restoration work comes with a comprehensive warranty. Body and paint work carries a 5-year warranty, while mechanical work includes a 2-year/20,000km warranty.</p>
+                        <!-- Warranty Cards -->
+                        <div class="mt-4 flex gap-4">
+                            <div class="flex-1 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg text-center">
+                                <div class="text-xl font-bold text-red-600">5+</div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400">Years Body</div>
+                            </div>
+                            <div class="flex-1 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-center">
+                                <div class="text-xl font-bold text-blue-600">2+</div>
+                                <div class="text-xs text-gray-600 dark:text-gray-400">Years Mech</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom CTA -->
+        <div class="text-center mt-12">
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Still have questions? We're here to help!</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="contact.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors">
+                    <i class="fas fa-envelope"></i>
+                    Contact Support
+                </a>
+                <a href="contact.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    <i class="fas fa-phone"></i>
+                    Call Us Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* FAQ Animation Styles */
+    .faq-answer {
+        max-height: 0;
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .faq-answer.open {
+        max-height: 500px;
+        opacity: 1;
+    }
+    
+    .faq-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .faq-icon.rotate {
+        transform: rotate(45deg);
+    }
+    
+    /* Hover Effects */
+    .faq-item:hover {
+        transform: translateY(-2px);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .grid {
+            gap: 1rem;
+        }
+        
+        .faq-item {
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+
+<script>
+    function toggleFAQ(element) {
+        const faqItem = element.closest('.faq-item');
+        const answer = faqItem.querySelector('.faq-answer');
+        const icon = faqItem.querySelector('.faq-icon');
+        const isOpen = answer.classList.contains('open');
+        
+        // Close all other FAQs
+        document.querySelectorAll('.faq-item').forEach(item => {
+            if (item !== faqItem) {
+                const otherAnswer = item.querySelector('.faq-answer');
+                const otherIcon = item.querySelector('.faq-icon');
+                otherAnswer.classList.remove('open');
+                otherIcon.classList.remove('rotate');
+            }
+        });
+        
+        // Toggle current FAQ
+        if (isOpen) {
+            answer.classList.remove('open');
+            icon.classList.remove('rotate');
+        } else {
+            answer.classList.add('open');
+            icon.classList.add('rotate');
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+ <!-- FOOTER - Fully Responsive with Mobile & Tablet Optimization -->
+    <footer class="bg-gray-900 text-white pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main Footer Grid - Responsive breakpoints -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 mb-10 sm:mb-12 md:mb-16">
+                
+                <!-- Brand Section - Full width on mobile -->
+                <div class="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1">
+                    <!-- Logo - Red with Wrench Icon -->
+                <a href="index.html" class="logo">
+                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    <span class="font-black text-lg text-primary">Groww</span>
+                    <span class="font-black text-lg text-gray-400 dark:text-white">Vintage</span>
+                </a>
+                    <p class="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 max-w-xs mx-auto sm:mx-0">
+                        India's premier vintage car restoration specialists since 1985. Bringing classics back to life.
+                    </p>
+                    
+                    <!-- Social Icons - Responsive sizing -->
+                    <div class="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <a href="https://facebook.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-facebook-f text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-instagram text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-twitter text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-youtube text-sm sm:text-base text-white"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" 
+                           class="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center 
+                                  hover:bg-red-600 transition transform hover:scale-110 active:scale-95 touch-manipulation">
+                            <i class="fab fa-linkedin-in text-sm sm:text-base text-white"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links - Centered on mobile -->
+                <div class="text-center sm:text-left">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Quick Links
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-sm sm:text-base mt-4 sm:mt-6">
+                        <li><a href="index.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Services</a></li>
+                        <li><a href="gallery.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Gallery</a></li>
+                        <li><a href="price.html" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Price</a></li>
+                        <li class="sm:hidden"><a href="contact.html" class="hover:text-white hover:pl-2 inline-block transition-all duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services - Centered on mobile -->
+                <div class="text-center sm:text-left">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Services
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-sm sm:text-base mt-4 sm:mt-6">
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Body Restoration</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Engine Rebuilding</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Interior Refurb</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Custom Paint</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 sm:hover:pl-3 inline-block transition-all duration-300">Parts Sourcing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info - Better mobile layout -->
+                <div class="text-center sm:text-left col-span-1 sm:col-span-2 lg:col-span-1">
+                    <h4 class="font-bold text-base sm:text-lg mb-3 sm:mb-4 relative inline-block sm:block">
+                        Workshop
+                        <span class="absolute bottom-0 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 
+                                   w-12 h-0.5 bg-red-600 -mb-2 sm:mb-0"></span>
+                    </h4>
+                    
+                    <!-- Contact Cards - Responsive grid -->
+                    <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-1 gap-3 mt-4 sm:mt-6">
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="map-pin" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <span class="truncate">Indiranagar, Bangalore</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="phone" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <a href="tel:+919876543210" class="hover:text-white transition truncate">+11 11122334410</a>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="mail" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <a href="mailto:hello@gowwvintage.com" class="hover:text-white transition truncate">hello@gowwvintage.com</a>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 text-gray-400 text-sm sm:text-base justify-center sm:justify-start 
+                                    bg-gray-800/30 p-3 rounded-lg sm:bg-transparent sm:p-0">
+                            <i data-lucide="clock" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0"></i>
+                            <span>Mon–Sat · 9AM – 7PM</span>
+                        </div>
+                    </div>
+
+                    <!-- Map Link - Mobile only -->
+                    <a href="#" class="mt-4 sm:hidden inline-flex items-center gap-2 text-red-400 text-sm">
+                        <i data-lucide="navigation" class="w-4 h-4"></i>
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bottom Footer - Fully responsive -->
+            <div class="pt-6 sm:pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center 
+                        text-gray-400 text-xs sm:text-sm gap-4 sm:gap-0">
+                
+                <!-- Copyright - Mobile optimized -->
+                <div class="text-center sm:text-left order-2 sm:order-1">
+                    <span class="block sm:inline">© 2025 Goww Car Vintage.</span>
+                    <span class="hidden sm:inline mx-2">|</span>
+                    <span class="block sm:inline mt-1 sm:mt-0">All rights reserved.</span>
+                </div>
+
+                <!-- Footer Links - Better mobile touch targets -->
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6 order-1 sm:order-2">
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition px-2 py-1 sm:p-0">Sitemap</a>
+                </div>
+
+                <!-- Payment Methods / Trust Badge - Optional for mobile -->
+                <div class="flex items-center gap-2 mt-4 sm:mt-0 order-3 text-gray-500">
+                    <i class="fas fa-shield-alt text-xs sm:text-sm"></i>
+                    <span class="text-xs">Secure & Trusted</span>
+                </div>
+            </div>
+
+            <!-- Mobile App Promo - Only visible on mobile -->
+            <div class="mt-6 sm:hidden flex justify-center gap-4 pt-4 border-t border-gray-800">
+                <a href="#" class="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-lg">
+                    <i class="fab fa-google-play text-red-400"></i>
+                    <span class="text-xs">Get our App</span>
+                </a>
+                <a href="#" class="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-lg">
+                    <i class="fab fa-apple text-red-400"></i>
+                    <span class="text-xs">App Store</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+</body>
+</html>
