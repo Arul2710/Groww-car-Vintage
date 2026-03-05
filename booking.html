@@ -76,11 +76,7 @@
             border-color: rgba(220, 38, 38, 0.3);
         }
         
-        .navbar.scrolled {
-            top: 10px;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.25);
-        }
+        
         
         /* Logo */
         .logo {
@@ -444,7 +440,7 @@
                 
                 <!-- Logo - Red with Wrench Icon -->
                 <a href="index.html" class="logo">
-                    <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                    
                     <span class="font-black text-lg text-primary">Groww</span>
                     <span class="font-black text-lg text-gray-500 dark:text-white">Vintage</span>
                 </a>
@@ -518,7 +514,7 @@
         <!-- Mobile Header -->
         <div class="mobile-header">
             <a href="index.html" class="logo">
-                <i data-lucide="wrench" class="w-6 h-6 text-primary"></i>
+                
                 <span class="font-black text-primary">Groww</span>
                 <span class="font-black text-gray-500 dark:text-white">Vintage</span>
             </a>
@@ -777,7 +773,7 @@
                         <i class="fas fa-car text-red-600"></i>
                     </div>
                     <select class="w-full h-14 pl-12 pr-6 bg-zinc-50 dark:bg-zinc-800/50 border-2 border-transparent focus:border-red-600 rounded-xl md:rounded-full text-sm font-black dark:text-white outline-none transition-all appearance-none cursor-pointer">
-                        <option selected class="bg-white dark:bg-zinc-900">Select Vintage Model</option>
+                        <option selected class="bg-white dark:bg-zinc-900">Select </option>
                         <option class="bg-white dark:bg-zinc-900">Ford Mustang '65 GT (₹3,499/day)</option>
                         <option class="bg-white dark:bg-zinc-900">Porsche 911 Classic '73 (₹4,999/day)</option>
                         <option class="bg-white dark:bg-zinc-900">Jaguar E-Type '67 (₹5,499/day)</option>
@@ -785,10 +781,7 @@
                         <option class="bg-white dark:bg-zinc-900">BMW X7 Modern (₹9,999/day)</option>
                         <option class="bg-white dark:bg-zinc-900">Benz S-Class 2024 (₹11,499/day)</option>
                     </select>
-                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 uppercase font-black pointer-events-none flex items-center gap-1">
-                        <i class="fas fa-chevron-down text-red-600"></i>
-                        <span>Model</span>
-                    </div>
+                    
                 </div>
 
                 <!-- Date Picker -->
@@ -796,9 +789,10 @@
                     <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
                         <i class="fas fa-calendar-alt text-red-600"></i>
                     </div>
-                    <input type="text" placeholder="Pick-up Date" onfocus="(this.type='date')" 
-                           class="w-full h-14 pl-12 pr-6 bg-zinc-50 dark:bg-zinc-800/50 border-2 border-transparent focus:border-red-600 rounded-xl md:rounded-full text-sm font-bold dark:text-white outline-none transition-all cursor-pointer">
-                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 uppercase font-black">Date</div>
+                    <input type="text" placeholder="Date" onfocus="(this.type='date')" 
+                           class="w-full h-14 pl-12 pr-6 bg-zinc-50 dark:bg-zinc-800/50 border-2 border-transparent focus:border-red-600 rounded-xl md:rounded-full text-sm font-bold dark:text-white outline-none transition-all cursor-pointer ">
+                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 uppercase font-black"></div>
+                    
                 </div>
 
                 <!-- Time Picker -->
@@ -807,7 +801,7 @@
                         <i class="fas fa-clock text-red-600"></i>
                     </div>
                     <select class="w-full h-14 pl-12 pr-6 bg-zinc-50 dark:bg-zinc-800/50 border-2 border-transparent focus:border-red-600 rounded-xl md:rounded-full text-sm font-black dark:text-white outline-none transition-all appearance-none cursor-pointer">
-                        <option selected class="bg-white dark:bg-zinc-900">Pick-up Time</option>
+                        <option selected class="bg-white dark:bg-zinc-900"> Time</option>
                         <option class="bg-white dark:bg-zinc-900">08:00 AM</option>
                         <option class="bg-white dark:bg-zinc-900">09:00 AM</option>
                         <option class="bg-white dark:bg-zinc-900">10:00 AM</option>
@@ -819,10 +813,7 @@
                         <option class="bg-white dark:bg-zinc-900">04:00 PM</option>
                         <option class="bg-white dark:bg-zinc-900">05:00 PM</option>
                     </select>
-                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 uppercase font-black flex items-center gap-1">
-                        <i class="fas fa-chevron-down text-red-600"></i>
-                        <span>Time</span>
-                    </div>
+                    
                 </div>
 
                 <!-- Book Button -->
@@ -846,7 +837,7 @@
                     <i class="fas fa-infinity text-red-600 text-xl group-hover:text-white transition-colors"></i>
                 </div>
                 <h3 class="text-lg font-black dark:text-white uppercase mb-2 group-hover:text-red-600 transition-colors">Unlimited KMs</h3>
-                <p class="text-sm text-gray-500 dark:text-zinc-400 font-medium leading-relaxed">No mileage restrictions on any booking. Drive as much as you want.</p>
+                <p class="text-sm text-gray-500 dark:text-zinc-400 font-medium leading-relaxed">No mileage restrictions on any booking. Drive as much as want.</p>
                 <div class="flex items-center gap-1 mt-4">
                     <i class="fas fa-star text-yellow-400 text-xs"></i>
                     <span class="text-xs text-gray-400">Best value for road trips</span>
@@ -861,7 +852,7 @@
                     <i class="fas fa-shield-alt text-red-600 text-xl group-hover:text-white transition-colors"></i>
                 </div>
                 <h3 class="text-lg font-black dark:text-white uppercase mb-2 group-hover:text-red-600 transition-colors">Full Cover</h3>
-                <p class="text-sm text-gray-500 dark:text-zinc-400 font-medium leading-relaxed">Comprehensive insurance included with zero depreciation cover.</p>
+                <p class="text-sm text-gray-500 dark:text-zinc-400 font-medium leading-relaxed">Comprehensive insurance included with zero depreciation.</p>
                 <div class="flex items-center gap-1 mt-4">
                     <i class="fas fa-shield text-red-600 text-xs"></i>
                     <span class="text-xs text-gray-400">₹10L coverage</span>
